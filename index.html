@@ -185,6 +185,28 @@
       font-size: 1rem;
     }
 
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta-secondary {
+      background: transparent;
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px var(--ink);
+    }
+
+    .hero-cta-secondary:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .hero-cta-secondary::after {
+      content: '↓';
+      font-size: 1.1rem;
+    }
+
     .hero-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -779,7 +801,10 @@
       <h1 class="hero-title">Mohan<br><em>Patcha</em></h1>
       <p class="hero-subtitle">Designing enterprise experiences that bridge user needs and business ambition — from
         wireframe to world-class product.</p>
-      <a href="#experience" class="hero-cta">View My Work</a>
+      <div class="hero-actions">
+        <a href="#experience" class="hero-cta">View My Work</a>
+        <a href="resume.pdf" class="hero-cta hero-cta-secondary" download="Mohan_Patcha_Resume.pdf">Download Resume</a>
+      </div>
     </div>
 
     <div class="hero-stats" data-reveal>
