@@ -27,8 +27,14 @@
       --gold: #c9a84c;
       --muted: #7a7168;
       --rule: #d0c9be;
+      --highlight: rgb(213, 234, 82);
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    ::selection {
+      background: var(--highlight);
+      color: var(--ink);
     }
 
     html {
@@ -177,7 +183,8 @@
     }
 
     .hero-cta:hover {
-      background: var(--rust);
+      background: var(--highlight);
+      color: var(--ink);
     }
 
     .hero-cta::after {
@@ -603,9 +610,18 @@
 
     /* ── TOOLS MARQUEE ── */
     .tools-section {
-      background: var(--cream);
+      background: var(--highlight);
       padding: 3rem 0;
       overflow: hidden;
+    }
+
+    .tools-section .tool-item {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .tools-section .tool-dot {
+      color: rgba(26, 21, 18, 0.4);
     }
 
     .tools-track {
