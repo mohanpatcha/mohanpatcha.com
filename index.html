@@ -1,1025 +1,1175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mohan Patcha — Lead UI/UX Designer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --ink: #1a1512;
-    --paper: #f5f0ea;
-    --cream: #ede7de;
-    --rust: #b5471b;
-    --rust-light: #d45e2a;
-    --gold: #c9a84c;
-    --muted: #7a7168;
-    --rule: #d0c9be;
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'DM Sans', system-ui, sans-serif;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: .025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    z-index: 999;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 3rem;
-    background: var(--paper);
-    border-bottom: 1px solid var(--rule);
-    mix-blend-mode: normal;
-  }
-
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: .02em;
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: .8rem;
-    font-weight: 500;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color .2s;
-  }
-
-  .nav-links a:hover { color: var(--rust); }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    padding: 8rem 3rem 5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::after {
-    content: 'UX';
-    position: absolute;
-    right: -0.05em;
-    bottom: -0.15em;
-    font-family: var(--font-display);
-    font-size: 28vw;
-    font-weight: 900;
-    color: var(--cream);
-    pointer-events: none;
-    line-height: 1;
-    user-select: none;
-  }
-
-  .hero-eyebrow {
-    display: inline-block;
-    font-size: .72rem;
-    font-weight: 500;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 1.5rem;
-    padding-bottom: .4rem;
-    border-bottom: 1px solid var(--rust);
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(3.5rem, 6vw, 6.5rem);
-    line-height: 1.02;
-    font-weight: 900;
-    letter-spacing: -.02em;
-    margin-bottom: 2rem;
-  }
-
-  .hero-title em {
-    font-style: italic;
-    color: var(--rust);
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-    color: var(--muted);
-    font-weight: 300;
-    max-width: 42ch;
-    line-height: 1.75;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: .75rem;
-    background: var(--ink);
-    color: var(--paper);
-    text-decoration: none;
-    padding: .9rem 2rem;
-    font-size: .78rem;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    transition: background .25s, color .25s;
-  }
-
-  .hero-cta:hover {
-    background: var(--rust);
-  }
-
-  .hero-cta::after {
-    content: '→';
-    font-size: 1rem;
-  }
-
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    position: relative;
-    z-index: 2;
-  }
-
-  .stat {
-    padding: 2rem;
-    background: var(--cream);
-    border-left: 3px solid var(--rust);
-  }
-
-  .stat-number {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--ink);
-    margin-bottom: .25rem;
-  }
-
-  .stat-label {
-    font-size: .75rem;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* ── SECTION FRAME ── */
-  section { padding: 6rem 3rem; }
-
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    gap: 1.5rem;
-    margin-bottom: 4rem;
-  }
-
-  .section-num {
-    font-family: var(--font-display);
-    font-size: 5rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--rule);
-    flex-shrink: 0;
-  }
-
-  .section-title-wrap { flex: 1; }
-
-  .section-tag {
-    display: block;
-    font-size: .7rem;
-    font-weight: 500;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: .25rem;
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 3vw, 3rem);
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  hr.rule {
-    border: none;
-    border-top: 1px solid var(--rule);
-    margin: 0 3rem;
-  }
-
-  /* ── ABOUT ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .about-aside {
-    position: sticky;
-    top: 6rem;
-  }
-
-  .about-label {
-    font-size: .7rem;
-    font-weight: 500;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: .5rem;
-    display: block;
-  }
-
-  .about-contact-item {
-    display: block;
-    font-size: .9rem;
-    color: var(--ink);
-    text-decoration: none;
-    margin-bottom: .4rem;
-    transition: color .2s;
-  }
-
-  .about-contact-item:hover { color: var(--rust); }
-
-  .about-divider {
-    margin: 1.75rem 0;
-    border: none;
-    border-top: 1px solid var(--rule);
-  }
-
-  .about-body p {
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    font-weight: 300;
-  }
-
-  .about-body p:first-child {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-style: italic;
-    line-height: 1.55;
-    font-weight: 400;
-  }
-
-  /* ── EXPERIENCE TIMELINE ── */
-  .timeline { position: relative; }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: var(--rule);
-  }
-
-  .timeline-item {
-    padding: 0 0 3.5rem 2.5rem;
-    position: relative;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: .5rem;
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: var(--paper);
-    border: 2px solid var(--rule);
-    transition: border-color .2s, background .2s;
-  }
-
-  .timeline-item:hover::before {
-    border-color: var(--rust);
-    background: var(--rust);
-  }
-
-  .timeline-meta {
-    font-size: .72rem;
-    font-weight: 500;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: .35rem;
-  }
-
-  .timeline-role {
-    font-family: var(--font-display);
-    font-size: 1.45rem;
-    font-weight: 700;
-    margin-bottom: .2rem;
-  }
-
-  .timeline-org {
-    font-size: .9rem;
-    color: var(--rust);
-    font-weight: 500;
-    margin-bottom: .85rem;
-  }
-
-  .timeline-desc {
-    font-size: .9rem;
-    color: var(--muted);
-    line-height: 1.75;
-    font-weight: 300;
-  }
-
-  /* ── EXPERTISE ── */
-  .expertise-bg { background: var(--ink); color: var(--paper); }
-
-  .expertise-bg .section-title { color: var(--paper); }
-  .expertise-bg .section-num { color: #2a2520; }
-  .expertise-bg .section-tag { color: var(--gold); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1px;
-    background: #2a2520;
-  }
-
-  .skill-card {
-    background: var(--ink);
-    padding: 2.25rem 2.5rem;
-    transition: background .2s;
-    cursor: default;
-  }
-
-  .skill-card:hover { background: #221e1a; }
-
-  .skill-icon {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .skill-name {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: .5rem;
-    color: var(--paper);
-  }
-
-  .skill-desc {
-    font-size: .82rem;
-    color: #9a9088;
-    line-height: 1.7;
-    font-weight: 300;
-  }
-
-  /* ── PROJECTS ── */
-  .projects-list { display: flex; flex-direction: column; gap: 0; }
-
-  .project-row {
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    align-items: center;
-    gap: 2rem;
-    padding: 2.25rem 0;
-    border-bottom: 1px solid var(--rule);
-    transition: background .15s;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .project-row:first-child { border-top: 1px solid var(--rule); }
-
-  .project-num {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: var(--rule);
-    line-height: 1;
-    text-align: center;
-  }
-
-  .project-title {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: .2rem;
-  }
-
-  .project-meta { font-size: .8rem; color: var(--muted); font-weight: 300; }
-
-  .project-tag {
-    font-size: .68rem;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--rust);
-    background: rgba(181,71,27,.08);
-    padding: .3rem .8rem;
-    white-space: nowrap;
-  }
-
-  /* ── EDUCATION ── */
-  .edu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-
-  .edu-card {
-    padding: 2.25rem;
-    border: 1px solid var(--rule);
-    position: relative;
-    transition: border-color .2s;
-  }
-
-  .edu-card:hover { border-color: var(--rust); }
-
-  .edu-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 0; height: 3px;
-    background: var(--rust);
-    transition: width .35s ease;
-  }
-
-  .edu-card:hover::before { width: 100%; }
-
-  .edu-degree {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: .3rem;
-  }
-
-  .edu-inst {
-    font-size: .82rem;
-    color: var(--rust);
-    font-weight: 500;
-    margin-bottom: .6rem;
-  }
-
-  .edu-note {
-    font-size: .8rem;
-    color: var(--muted);
-    font-weight: 300;
-  }
-
-  /* ── CERTIFICATIONS ── */
-  .certs { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-
-  .cert-pill {
-    display: flex;
-    align-items: center;
-    gap: .65rem;
-    background: var(--cream);
-    padding: .8rem 1.4rem;
-    font-size: .82rem;
-    font-weight: 500;
-  }
-
-  .cert-pill::before {
-    content: '✦';
-    color: var(--gold);
-    font-size: .75rem;
-  }
-
-  /* ── TOOLS MARQUEE ── */
-  .tools-section { background: var(--cream); padding: 3rem 0; overflow: hidden; }
-
-  .tools-track {
-    display: flex;
-    gap: 3rem;
-    animation: marquee 18s linear infinite;
-    white-space: nowrap;
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  .tool-item {
-    font-size: .78rem;
-    font-weight: 500;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
-
-  .tool-dot { color: var(--rust); margin-right: 3rem; }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 5rem 3rem 3rem;
-  }
-
-  .footer-top {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 4rem;
-    margin-bottom: 4rem;
-  }
-
-  .footer-name {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: .75rem;
-  }
-
-  .footer-tagline {
-    font-size: .9rem;
-    color: #9a9088;
-    font-weight: 300;
-    line-height: 1.7;
-    max-width: 38ch;
-  }
-
-  .footer-col-title {
-    font-size: .7rem;
-    font-weight: 500;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.25rem;
-  }
-
-  .footer-link {
-    display: block;
-    font-size: .9rem;
-    color: #9a9088;
-    text-decoration: none;
-    margin-bottom: .6rem;
-    transition: color .2s;
-  }
-
-  .footer-link:hover { color: var(--paper); }
-
-  .footer-bottom {
-    border-top: 1px solid #2a2520;
-    padding-top: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-copy {
-    font-size: .75rem;
-    color: #5a5248;
-    letter-spacing: .05em;
-  }
-
-  .footer-initials {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-    color: #5a5248;
-    letter-spacing: .1em;
-  }
-
-  /* ── REVEAL ANIMATIONS ── */
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .7s ease, transform .7s ease;
-  }
-
-  [data-reveal].visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; }
-    .hero::after { font-size: 35vw; }
-    .about-grid { grid-template-columns: 1fr; }
-    .about-aside { position: static; }
-    section { padding: 4rem 1.5rem; }
-    hr.rule { margin: 0 1.5rem; }
-    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-stats { grid-template-columns: 1fr 1fr; }
-    .project-row { grid-template-columns: 60px 1fr; }
-    .project-tag { display: none; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohan Patcha — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #1a1512;
+      --paper: #f5f0ea;
+      --cream: #ede7de;
+      --rust: #b5471b;
+      --rust-light: #d45e2a;
+      --gold: #c9a84c;
+      --muted: #7a7168;
+      --rule: #d0c9be;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      z-index: 999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+      mix-blend-mode: normal;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--rust);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 8rem 3rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: 'UX';
+      position: absolute;
+      right: -0.05em;
+      bottom: -0.15em;
+      font-family: var(--font-display);
+      font-size: 28vw;
+      font-weight: 900;
+      color: var(--cream);
+      pointer-events: none;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 1.5rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--rust);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 6vw, 6.5rem);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 42ch;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      padding: .9rem 2rem;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: background .25s, color .25s;
+    }
+
+    .hero-cta:hover {
+      background: var(--rust);
+    }
+
+    .hero-cta::after {
+      content: '→';
+      font-size: 1rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat {
+      padding: 2rem;
+      background: var(--cream);
+      border-left: 3px solid var(--rust);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: .25rem;
+    }
+
+    .stat-label {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SECTION FRAME ── */
+    section {
+      padding: 6rem 3rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-num {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--rule);
+      flex-shrink: 0;
+    }
+
+    .section-title-wrap {
+      flex: 1;
+    }
+
+    .section-tag {
+      display: block;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: .25rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    hr.rule {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-aside {
+      position: sticky;
+      top: 6rem;
+    }
+
+    .about-label {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .5rem;
+      display: block;
+    }
+
+    .about-contact-item {
+      display: block;
+      font-size: .9rem;
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: .4rem;
+      transition: color .2s;
+    }
+
+    .about-contact-item:hover {
+      color: var(--rust);
+    }
+
+    .about-divider {
+      margin: 1.75rem 0;
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+
+    .about-body p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .about-body p:first-child {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-style: italic;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    /* ── EXPERIENCE TIMELINE ── */
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--rule);
+    }
+
+    .timeline-item {
+      padding: 0 0 3.5rem 2.5rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: .5rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid var(--rule);
+      transition: border-color .2s, background .2s;
+    }
+
+    .timeline-item:hover::before {
+      border-color: var(--rust);
+      background: var(--rust);
+    }
+
+    .timeline-meta {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .35rem;
+    }
+
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+
+    .timeline-org {
+      font-size: .9rem;
+      color: var(--rust);
+      font-weight: 500;
+      margin-bottom: .85rem;
+    }
+
+    .timeline-desc {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* ── EXPERTISE ── */
+    .expertise-bg {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .expertise-bg .section-title {
+      color: var(--paper);
+    }
+
+    .expertise-bg .section-num {
+      color: #2a2520;
+    }
+
+    .expertise-bg .section-tag {
+      color: var(--gold);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: #2a2520;
+    }
+
+    .skill-card {
+      background: var(--ink);
+      padding: 2.25rem 2.5rem;
+      transition: background .2s;
+      cursor: default;
+    }
+
+    .skill-card:hover {
+      background: #221e1a;
+    }
+
+    .skill-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      color: var(--paper);
+    }
+
+    .skill-desc {
+      font-size: .82rem;
+      color: #9a9088;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 2.25rem 0;
+      border-bottom: 1px solid var(--rule);
+      transition: background .15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .project-row:first-child {
+      border-top: 1px solid var(--rule);
+    }
+
+    .project-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--rule);
+      line-height: 1;
+      text-align: center;
+    }
+
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+
+    .project-meta {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .project-tag {
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rust);
+      background: rgba(181, 71, 27, .08);
+      padding: .3rem .8rem;
+      white-space: nowrap;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .edu-card {
+      padding: 2.25rem;
+      border: 1px solid var(--rule);
+      position: relative;
+      transition: border-color .2s;
+    }
+
+    .edu-card:hover {
+      border-color: var(--rust);
+    }
+
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--rust);
+      transition: width .35s ease;
+    }
+
+    .edu-card:hover::before {
+      width: 100%;
+    }
+
+    .edu-degree {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+
+    .edu-inst {
+      font-size: .82rem;
+      color: var(--rust);
+      font-weight: 500;
+      margin-bottom: .6rem;
+    }
+
+    .edu-note {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ── CERTIFICATIONS ── */
+    .certs {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cert-pill {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      background: var(--cream);
+      padding: .8rem 1.4rem;
+      font-size: .82rem;
+      font-weight: 500;
+    }
+
+    .cert-pill::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: .75rem;
+    }
+
+    /* ── TOOLS MARQUEE ── */
+    .tools-section {
+      background: var(--cream);
+      padding: 3rem 0;
+      overflow: hidden;
+    }
+
+    .tools-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 18s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .tool-item {
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .tool-dot {
+      color: var(--rust);
+      margin-right: 3rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 5rem 3rem 3rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: .75rem;
+    }
+
+    .footer-tagline {
+      font-size: .9rem;
+      color: #9a9088;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 38ch;
+    }
+
+    .footer-col-title {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-link {
+      display: block;
+      font-size: .9rem;
+      color: #9a9088;
+      text-decoration: none;
+      margin-bottom: .6rem;
+      transition: color .2s;
+    }
+
+    .footer-link:hover {
+      color: var(--paper);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #2a2520;
+      padding-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: .75rem;
+      color: #5a5248;
+      letter-spacing: .05em;
+    }
+
+    .footer-initials {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #5a5248;
+      letter-spacing: .1em;
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    [data-reveal].visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 7rem 1.5rem 4rem;
+      }
+
+      .hero::after {
+        font-size: 35vw;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-aside {
+        position: static;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      hr.rule {
+        margin: 0 1.5rem;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .project-row {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .project-tag {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">MP.</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Work</a></li>
-    <li><a href="#expertise">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">MP.</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#expertise">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content" data-reveal>
-    <span class="hero-eyebrow">Lead UI/UX Designer · 14+ Years</span>
-    <h1 class="hero-title">Mohan<br><em>Patcha</em></h1>
-    <p class="hero-subtitle">Designing enterprise experiences that bridge user needs and business ambition — from wireframe to world-class product.</p>
-    <a href="#experience" class="hero-cta">View My Work</a>
-  </div>
-
-  <div class="hero-stats" data-reveal>
-    <div class="stat">
-      <div class="stat-number">14+</div>
-      <div class="stat-label">Years Experience</div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content" data-reveal>
+      <span class="hero-eyebrow">Product Designer · 14+ Years</span>
+      <h1 class="hero-title">Mohan<br><em>Patcha</em></h1>
+      <p class="hero-subtitle">Designing enterprise experiences that bridge user needs and business ambition — from
+        wireframe to world-class product.</p>
+      <a href="#experience" class="hero-cta">View My Work</a>
     </div>
-    <div class="stat">
-      <div class="stat-number">50+</div>
-      <div class="stat-label">Products Designed</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number">10+</div>
-      <div class="stat-label">Designers Mentored</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number">6</div>
-      <div class="stat-label">Companies Shaped</div>
-    </div>
-  </div>
-</section>
 
-<hr class="rule">
-
-<!-- TOOLS MARQUEE -->
-<div class="tools-section">
-  <div class="tools-track" aria-hidden="true">
-    <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
-    <!-- duplicate for seamless loop -->
-    <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
-    <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
-  </div>
-</div>
-
-<hr class="rule">
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-header" data-reveal>
-    <span class="section-num">01</span>
-    <div class="section-title-wrap">
-      <span class="section-tag">Background</span>
-      <h2 class="section-title">The Designer<br>Behind the Work</h2>
-    </div>
-  </div>
-
-  <div class="about-grid">
-    <aside class="about-aside" data-reveal>
-      <span class="about-label">Location</span>
-      <span class="about-contact-item">Hyderabad, Telangana</span>
-
-      <hr class="about-divider">
-
-      <span class="about-label">Contact</span>
-      <a href="tel:+919885411775" class="about-contact-item">+91 98854 11775</a>
-      <a href="mailto:mohan.patcha@gmail.com" class="about-contact-item">mohan.patcha@gmail.com</a>
-
-      <hr class="about-divider">
-
-      <span class="about-label">Online</span>
-      <a href="http://www.mohanpatcha.com" class="about-contact-item" target="_blank">mohanpatcha.com</a>
-      <a href="https://linkedin.com/in/mohanpatcha" class="about-contact-item" target="_blank">LinkedIn</a>
-
-      <hr class="about-divider">
-
-      <span class="about-label">Languages</span>
-      <span class="about-contact-item">English — Advanced (C1)</span>
-      <span class="about-contact-item">Hindi — Upper Intermediate (B2)</span>
-      <span class="about-contact-item">Telugu — Proficient (C2)</span>
-    </aside>
-
-    <div class="about-body" data-reveal>
-      <p>"I am a passionate and ambitious User Experience professional with exceptional experience in enterprise applications — fourteen years of translating human needs into digital reality."</p>
-      <p>My practice spans the full UX process: from Quantitative and Qualitative Research, Field Studies and Diary Studies, through Empathy Mapping, Persona Creation and Ideation, to high-fidelity Prototypes, Usability Testing, A/B Testing, and UX Audits.</p>
-      <p>I've shaped experiences for complex B2B enterprise platforms, consumer-facing B2C products, and eCommerce applications across industries including environmental tech, retail, banking, and enterprise software. I bring the same rigour to client management and sprint facilitation as I do to craft.</p>
-      <p>Currently, I am the Lead Product Designer at <strong>Cleanearthinc</strong>, working on CORE and Connect+, a waste management desktop platform serving one of the nation's leading environmental remediation companies.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-header" data-reveal>
-    <span class="section-num">02</span>
-    <div class="section-title-wrap">
-      <span class="section-tag">Career History</span>
-      <h2 class="section-title">A Progression<br>in Design Leadership</h2>
-    </div>
-  </div>
-
-  <!-- FEATURED PROJECTS / NOTABLE WORK -->
-  <div class="projects-list" data-reveal style="margin-bottom:4rem;">
-    <div class="project-row">
-      <div class="project-num">01</div>
-      <div>
-        <div class="project-title">CORE &amp; Connect+ Platform</div>
-        <div class="project-meta">Cleanearthinc · Lead Product Designer · Asset &amp; Waste Management Enterprise App</div>
+    <div class="hero-stats" data-reveal>
+      <div class="stat">
+        <div class="stat-number">14+</div>
+        <div class="stat-label">Years Experience</div>
       </div>
-      <span class="project-tag">Current</span>
-    </div>
-    <div class="project-row">
-      <div class="project-num">02</div>
-      <div>
-        <div class="project-title">Lowe's Marketplace Application</div>
-        <div class="project-meta">eTeam · Design Architect · Item Management &amp; Vendor Management Desktop Platform</div>
+      <div class="stat">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Products Designed</div>
       </div>
-      <span class="project-tag">Enterprise</span>
-    </div>
-    <div class="project-row">
-      <div class="project-num">03</div>
-      <div>
-        <div class="project-title">webMethods Product Suite</div>
-        <div class="project-meta">Software AG · Senior UX Designer · Active Patterns, Partner Cloud, Cloudstreams</div>
+      <div class="stat">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Designers Mentored</div>
       </div>
-      <span class="project-tag">SaaS</span>
-    </div>
-    <div class="project-row">
-      <div class="project-num">04</div>
-      <div>
-        <div class="project-title">Core + Internet + Mobile Banking</div>
-        <div class="project-meta">VSoft Technologies · Specialist UI/UX · Full banking product suite redesign</div>
+      <div class="stat">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Companies Shaped</div>
       </div>
-      <span class="project-tag">Fintech</span>
     </div>
-    <div class="project-row">
-      <div class="project-num">05</div>
-      <div>
-        <div class="project-title">UX Studio Portfolio, Trianz</div>
-        <div class="project-meta">Trianz · Design Architect · Design Strategy, Scrum Master, Data Visualisation</div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- TOOLS MARQUEE -->
+  <div class="tools-section">
+    <div class="tools-track" aria-hidden="true">
+      <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
+      <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header" data-reveal>
+      <span class="section-num">01</span>
+      <div class="section-title-wrap">
+        <span class="section-tag">Background</span>
+        <h2 class="section-title">The Designer<br>Behind the Work</h2>
       </div>
-      <span class="project-tag">Consulting</span>
     </div>
-  </div>
 
-  <!-- TIMELINE -->
-  <div class="timeline" data-reveal>
-    <div class="timeline-item">
-      <div class="timeline-meta">Recent · Hyderabad, IN</div>
-      <div class="timeline-role">Lead Product Designer</div>
-      <div class="timeline-org">Cleanearthinc</div>
-      <div class="timeline-desc">Led end-to-end UX for a waste management platform, conducting full-cycle user research — quantitative, qualitative, field studies, diary studies, and usability testing. Managed cross-functional collaboration, mentored junior designers, and championed data-driven design with A/B testing and analytics integration.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Hyderabad, IN</div>
-      <div class="timeline-role">Senior Product Designer</div>
-      <div class="timeline-org">Self-employed</div>
-      <div class="timeline-desc">Managed independent design engagements with comprehensive style guides, inclusive design principles, rapid prototyping in Figma, and data-driven decision making. Reduced development time through iterative design and clear stakeholder communication.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Hyderabad, IN</div>
-      <div class="timeline-role">Design Architect</div>
-      <div class="timeline-org">eTeam</div>
-      <div class="timeline-desc">Owned the UX of the Lowe's Marketplace Desktop Application — Item Management, Vendor Management, Asset Grouping, Price Management, Barcode Management, and Fulfilment. Delivered optimised space utilisation through thorough site analysis and creative problem-solving.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Hyderabad, IN</div>
-      <div class="timeline-role">Design Architect</div>
-      <div class="timeline-org">Trianz</div>
-      <div class="timeline-desc">Project management, Scrum Master duties, PRD creation, UX Studio portfolio management, Design Strategy, Data Visualisation, Heuristic Evaluation, and Persona Creation. Developed firm-wide design standards promoting consistency across all projects.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Hyderabad, IN</div>
-      <div class="timeline-role">Design Lead</div>
-      <div class="timeline-org">Lollypop Design Studio</div>
-      <div class="timeline-desc">Full UX delivery management: requirements gathering, design strategy, user interviews, design sprints, wireframing, visual design, interactive prototyping, usability testing, and stakeholder delivery. Successfully handled teams of 10+ designers.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Enterprise Software</div>
-      <div class="timeline-role">Senior User Experience Designer</div>
-      <div class="timeline-org">Software AG</div>
-      <div class="timeline-desc">Designed end-to-end UX for the webMethods portfolio — Active Patterns, Partner Cloud, and Cloudstreams. Ran stakeholder interviews, UX surveys, competition analysis, brainwriting workshops, crazy 8s, storyboarding, and interaction design. Created development guidelines.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Hyderabad, IN</div>
-      <div class="timeline-role">Specialist UI/UX Designer → Senior Usability Engineer</div>
-      <div class="timeline-org">VSoft Technologies Pvt. Ltd.</div>
-      <div class="timeline-desc">Designed Core Banking, Internet Banking, and Mobile Banking products. Led user interviews, task flows, wireframes, and usability testing. Early career foundation in web and application design, digital collateral, and brochure design.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-meta">Early Career</div>
-      <div class="timeline-role">Web Designer</div>
-      <div class="timeline-org">Zen IT Solutions</div>
-      <div class="timeline-desc">Web design and CD presentation work — foundation in digital design, visual communication, and client deliverables.</div>
-    </div>
-  </div>
-</section>
+    <div class="about-grid">
+      <aside class="about-aside" data-reveal>
+        <span class="about-label">Location</span>
+        <span class="about-contact-item">Hyderabad, Telangana</span>
 
-<hr class="rule">
+        <hr class="about-divider">
 
-<!-- EXPERTISE -->
-<section id="expertise" class="expertise-bg">
-  <div class="section-header" data-reveal>
-    <span class="section-num">03</span>
-    <div class="section-title-wrap">
-      <span class="section-tag">Core Competencies</span>
-      <h2 class="section-title">What I Bring<br>to Every Project</h2>
-    </div>
-  </div>
+        <span class="about-label">Contact</span>
+        <a href="tel:+919885411775" class="about-contact-item">+91 98854 11775</a>
+        <a href="mailto:mohan.patcha@gmail.com" class="about-contact-item">mohan.patcha@gmail.com</a>
 
-  <div class="skills-grid" data-reveal>
-    <div class="skill-card">
-      <span class="skill-icon">◎</span>
-      <div class="skill-name">User Research</div>
-      <div class="skill-desc">Quantitative &amp; qualitative methods, field studies, diary studies, interviews, surveys, card sorting, empathy mapping, and competitive analysis.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">⬡</span>
-      <div class="skill-name">Design Systems</div>
-      <div class="skill-desc">Building reusable component libraries, style guides, and scalable systems that maintain consistency across platforms and product lines.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">◈</span>
-      <div class="skill-name">Interaction Design</div>
-      <div class="skill-desc">Wireframes, prototypes, storyboarding, crazy 8s, and end-to-end interaction models — from concept to pixel-perfect delivery in Figma.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">◷</span>
-      <div class="skill-name">Usability Testing</div>
-      <div class="skill-desc">Moderated sessions, A/B testing, click testing, tree testing, UX audits, and user mood analysis. Turning observations into actionable insight.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">❖</span>
-      <div class="skill-name">Design Strategy</div>
-      <div class="skill-desc">Aligning UX vision with business objectives. PRD creation, sprint planning, roadmap ownership, and executive-level presentation skills.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">◉</span>
-      <div class="skill-name">Team Leadership</div>
-      <div class="skill-desc">Managed teams of 10+ designers. Mentorship, workshop facilitation, Scrum Master, and cross-functional collaboration with dev and product.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">▲</span>
-      <div class="skill-name">Information Architecture</div>
-      <div class="skill-desc">Complex enterprise navigation, content hierarchy, user flow mapping, and accessibility-first (WCAG) structural thinking.</div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-icon">◼</span>
-      <div class="skill-name">Visual Design</div>
-      <div class="skill-desc">Figma (Advanced), Adobe Creative Suite (Upper Intermediate). Color theory, typography, brand identity guidelines, and responsive design.</div>
-    </div>
-  </div>
-</section>
+        <hr class="about-divider">
 
-<!-- EDUCATION -->
-<section id="education">
-  <div class="section-header" data-reveal>
-    <span class="section-num">04</span>
-    <div class="section-title-wrap">
-      <span class="section-tag">Academic &amp; Professional Training</span>
-      <h2 class="section-title">Education &amp;<br>Certifications</h2>
-    </div>
-  </div>
+        <span class="about-label">Online</span>
+        <a href="http://www.mohanpatcha.com" class="about-contact-item" target="_blank">mohanpatcha.com</a>
+        <a href="https://linkedin.com/in/mohanpatcha" class="about-contact-item" target="_blank">LinkedIn</a>
+        <a href="https://www.behance.net/mohanpatcha" class="about-contact-item" target="_blank">Behance</a>
 
-  <div class="edu-grid" data-reveal>
-    <div class="edu-card">
-      <div class="edu-degree">CUA — User Experience</div>
-      <div class="edu-inst">Human Factors International, Mumbai</div>
-      <div class="edu-note">Certified Usability Analyst training in UX methodology, usability evaluation, and human-centered design processes.</div>
-    </div>
-    <div class="edu-card">
-      <div class="edu-degree">Mobile UX Designing</div>
-      <div class="edu-inst">Human Factors International, Mumbai</div>
-      <div class="edu-note">Specialised course covering mobile UX process, patterns, and platform-specific design considerations.</div>
-    </div>
-    <div class="edu-card">
-      <div class="edu-degree">MBA — Information Systems</div>
-      <div class="edu-inst">Sikkim Manipal Institute of Technology — SMU Manipal</div>
-      <div class="edu-note">Business management fundamentals with a specialisation in information systems strategy.</div>
-    </div>
-    <div class="edu-card">
-      <div class="edu-degree">DMID — Graphic Design</div>
-      <div class="edu-inst">Image Creative Education, Chennai</div>
-      <div class="edu-note">Formal training in graphic design, visual communication, and creative production.</div>
-    </div>
-    <div class="edu-card">
-      <div class="edu-degree">Bachelor of Arts — Commerce</div>
-      <div class="edu-inst">Andhra University, Visakhapatnam</div>
-      <div class="edu-note">Undergraduate degree providing analytical and business-thinking foundations.</div>
-    </div>
-  </div>
+        <hr class="about-divider">
 
-  <div style="margin-top:3rem" data-reveal>
-    <span class="section-tag" style="display:block;margin-bottom:1.25rem;">Certifications</span>
-    <div class="certs">
-      <div class="cert-pill">Enterprise Design Thinking Practitioner — IBM</div>
-      <div class="cert-pill">Certified Usability Analyst (Trained) — Human Factors International</div>
-    </div>
-  </div>
-</section>
+        <span class="about-label">Languages</span>
+        <span class="about-contact-item">English — Advanced (C1)</span>
+        <span class="about-contact-item">Hindi — Upper Intermediate (B2)</span>
+        <span class="about-contact-item">Telugu — Proficient (C2)</span>
+      </aside>
 
-<hr class="rule">
+      <div class="about-body" data-reveal>
+        <p>"I am a passionate and ambitious User Experience professional with exceptional experience in enterprise
+          applications — fourteen years of translating human needs into digital reality."</p>
+        <p>My practice spans the full UX process: from Quantitative and Qualitative Research, Field Studies and Diary
+          Studies, through Empathy Mapping, Persona Creation and Ideation, to high-fidelity Prototypes, Usability
+          Testing, A/B Testing, and UX Audits.</p>
+        <p>I've shaped experiences for complex B2B enterprise platforms, consumer-facing B2C products, and eCommerce
+          applications across industries including environmental tech, retail, banking, and enterprise software. I bring
+          the same rigour to client management and sprint facilitation as I do to craft.</p>
+        <p>Currently, I am the Lead Product Designer at <strong>Cleanearthinc</strong>, working on CORE and Connect+, a
+          Waste management Cloud platform serving one of the nation's leading environmental remediation companies.</p>
+      </div>
+    </div>
+  </section>
 
-<!-- FOOTER / CONTACT -->
-<footer id="contact">
-  <div class="footer-top">
-    <div>
-      <div class="footer-name">Let's create<br><em style="font-style:italic;color:var(--gold)">together.</em></div>
-      <p class="footer-tagline">Open to lead design roles, product partnerships, and freelance UX engagements. Based in Hyderabad — available for remote or on-site work globally.</p>
-    </div>
-    <div>
-      <div class="footer-col-title">Get in Touch</div>
-      <a href="mailto:mohan.patcha@gmail.com" class="footer-link">mohan.patcha@gmail.com</a>
-      <a href="tel:+919885411775" class="footer-link">+91 98854 11775</a>
-    </div>
-    <div>
-      <div class="footer-col-title">Find Me Online</div>
-      <a href="http://www.mohanpatcha.com" class="footer-link" target="_blank">mohanpatcha.com</a>
-      <a href="https://linkedin.com/in/mohanpatcha" class="footer-link" target="_blank">LinkedIn</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2025 Mohan Patcha · Hyderabad, IN</span>
-    <span class="footer-initials">M.P.</span>
-  </div>
-</footer>
+  <hr class="rule">
 
-<script>
-  // Reveal on scroll
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  revealEls.forEach(el => io.observe(el));
-</script>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header" data-reveal>
+      <span class="section-num">02</span>
+      <div class="section-title-wrap">
+        <span class="section-tag">Career History</span>
+        <h2 class="section-title">A Progression<br>in Design Leadership</h2>
+      </div>
+    </div>
+
+    <!-- FEATURED PROJECTS / NOTABLE WORK -->
+    <div class="projects-list" data-reveal style="margin-bottom:4rem;">
+      <div class="project-row">
+        <div class="project-num">01</div>
+        <div>
+          <div class="project-title">CORE &amp; Connect+ Platform</div>
+          <div class="project-meta">Cleanearthinc · Lead Product Designer · Asset &amp; Waste Management Enterprise App
+          </div>
+        </div>
+        <span class="project-tag">Current</span>
+      </div>
+      <div class="project-row">
+        <div class="project-num">02</div>
+        <div>
+          <div class="project-title">Lowe's Marketplace Application</div>
+          <div class="project-meta">eTeam · Design Architect · Item Management &amp; Vendor Management Desktop Platform
+          </div>
+        </div>
+        <span class="project-tag">Enterprise</span>
+      </div>
+      <div class="project-row">
+        <div class="project-num">03</div>
+        <div>
+          <div class="project-title">webMethods Product Suite</div>
+          <div class="project-meta">Software AG · Senior UX Designer · Active Patterns, Partner Cloud, Cloudstreams
+          </div>
+        </div>
+        <span class="project-tag">SaaS</span>
+      </div>
+      <div class="project-row">
+        <div class="project-num">04</div>
+        <div>
+          <div class="project-title">Core + Internet + Mobile Banking</div>
+          <div class="project-meta">VSoft Technologies · Specialist UI/UX · Full banking product suite redesign</div>
+        </div>
+        <span class="project-tag">Fintech</span>
+      </div>
+      <div class="project-row">
+        <div class="project-num">05</div>
+        <div>
+          <div class="project-title">UX Studio Portfolio, Trianz</div>
+          <div class="project-meta">Trianz · Design Architect · Design Strategy, Scrum Master, Data Visualisation</div>
+        </div>
+        <span class="project-tag">Consulting</span>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline" data-reveal>
+      <div class="timeline-item">
+        <div class="timeline-meta">Recent · Hyderabad, IN</div>
+        <div class="timeline-role">Lead Product Designer</div>
+        <div class="timeline-org">Cleanearthinc</div>
+        <div class="timeline-desc">Led end-to-end UX for a waste management platform, conducting full-cycle user
+          research — quantitative, qualitative, field studies, diary studies, and usability testing. Managed
+          cross-functional collaboration, mentored junior designers, and championed data-driven design with A/B testing
+          and analytics integration.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Hyderabad, IN</div>
+        <div class="timeline-role">Senior Product Designer</div>
+        <div class="timeline-org">Self-employed</div>
+        <div class="timeline-desc">Managed independent design engagements with comprehensive style guides, inclusive
+          design principles, rapid prototyping in Figma, and data-driven decision making. Reduced development time
+          through iterative design and clear stakeholder communication.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Hyderabad, IN</div>
+        <div class="timeline-role">Design Architect</div>
+        <div class="timeline-org">eTeam</div>
+        <div class="timeline-desc">Owned the UX of the Lowe's Marketplace Desktop Application — Item Management, Vendor
+          Management, Asset Grouping, Price Management, Barcode Management, and Fulfilment. Delivered optimised space
+          utilisation through thorough site analysis and creative problem-solving.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Hyderabad, IN</div>
+        <div class="timeline-role">Design Architect</div>
+        <div class="timeline-org">Trianz</div>
+        <div class="timeline-desc">Project management, Scrum Master duties, PRD creation, UX Studio portfolio
+          management, Design Strategy, Data Visualisation, Heuristic Evaluation, and Persona Creation. Developed
+          firm-wide design standards promoting consistency across all projects.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Hyderabad, IN</div>
+        <div class="timeline-role">Design Lead</div>
+        <div class="timeline-org">Lollypop Design Studio</div>
+        <div class="timeline-desc">Full UX delivery management: requirements gathering, design strategy, user
+          interviews, design sprints, wireframing, visual design, interactive prototyping, usability testing, and
+          stakeholder delivery. Successfully handled teams of 10+ designers.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Enterprise Software</div>
+        <div class="timeline-role">Senior User Experience Designer</div>
+        <div class="timeline-org">Software AG</div>
+        <div class="timeline-desc">Designed end-to-end UX for the webMethods portfolio — Active Patterns, Partner Cloud,
+          and Cloudstreams. Ran stakeholder interviews, UX surveys, competition analysis, brainwriting workshops, crazy
+          8s, storyboarding, and interaction design. Created development guidelines.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Hyderabad, IN</div>
+        <div class="timeline-role">Specialist UI/UX Designer → Senior Usability Engineer</div>
+        <div class="timeline-org">VSoft Technologies Pvt. Ltd.</div>
+        <div class="timeline-desc">Designed Core Banking, Internet Banking, and Mobile Banking products. Led user
+          interviews, task flows, wireframes, and usability testing. Early career foundation in web and application
+          design, digital collateral, and brochure design.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">Early Career</div>
+        <div class="timeline-role">Web Designer</div>
+        <div class="timeline-org">Zen IT Solutions</div>
+        <div class="timeline-desc">Web design and CD presentation work — foundation in digital design, visual
+          communication, and client deliverables.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- EXPERTISE -->
+  <section id="expertise" class="expertise-bg">
+    <div class="section-header" data-reveal>
+      <span class="section-num">03</span>
+      <div class="section-title-wrap">
+        <span class="section-tag">Core Competencies</span>
+        <h2 class="section-title">What I Bring<br>to Every Project</h2>
+      </div>
+    </div>
+
+    <div class="skills-grid" data-reveal>
+      <div class="skill-card">
+        <span class="skill-icon">◎</span>
+        <div class="skill-name">User Research</div>
+        <div class="skill-desc">Quantitative &amp; qualitative methods, field studies, diary studies, interviews,
+          surveys, card sorting, empathy mapping, and competitive analysis.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">⬡</span>
+        <div class="skill-name">Design Systems</div>
+        <div class="skill-desc">Building reusable component libraries, style guides, and scalable systems that maintain
+          consistency across platforms and product lines.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">◈</span>
+        <div class="skill-name">Interaction Design</div>
+        <div class="skill-desc">Wireframes, prototypes, storyboarding, crazy 8s, and end-to-end interaction models —
+          from concept to pixel-perfect delivery in Figma.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">◷</span>
+        <div class="skill-name">Usability Testing</div>
+        <div class="skill-desc">Moderated sessions, A/B testing, click testing, tree testing, UX audits, and user mood
+          analysis. Turning observations into actionable insight.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">❖</span>
+        <div class="skill-name">Design Strategy</div>
+        <div class="skill-desc">Aligning UX vision with business objectives. PRD creation, sprint planning, roadmap
+          ownership, and executive-level presentation skills.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">◉</span>
+        <div class="skill-name">Team Leadership</div>
+        <div class="skill-desc">Managed teams of 10+ designers. Mentorship, workshop facilitation, Scrum Master, and
+          cross-functional collaboration with dev and product.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">▲</span>
+        <div class="skill-name">Information Architecture</div>
+        <div class="skill-desc">Complex enterprise navigation, content hierarchy, user flow mapping, and
+          accessibility-first (WCAG) structural thinking.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">◼</span>
+        <div class="skill-name">Visual Design</div>
+        <div class="skill-desc">Figma (Advanced), Adobe Creative Suite (Upper Intermediate). Color theory, typography,
+          brand identity guidelines, and responsive design.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header" data-reveal>
+      <span class="section-num">04</span>
+      <div class="section-title-wrap">
+        <span class="section-tag">Academic &amp; Professional Training</span>
+        <h2 class="section-title">Education &amp;<br>Certifications</h2>
+      </div>
+    </div>
+
+    <div class="edu-grid" data-reveal>
+      <div class="edu-card">
+        <div class="edu-degree">CUA — User Experience</div>
+        <div class="edu-inst">Human Factors International, Mumbai</div>
+        <div class="edu-note">Certified Usability Analyst training in UX methodology, usability evaluation, and
+          human-centered design processes.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Mobile UX Designing</div>
+        <div class="edu-inst">Human Factors International, Mumbai</div>
+        <div class="edu-note">Specialised course covering mobile UX process, patterns, and platform-specific design
+          considerations.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">MBA — Information Systems</div>
+        <div class="edu-inst">Sikkim Manipal Institute of Technology — SMU Manipal</div>
+        <div class="edu-note">Business management fundamentals with a specialisation in information systems strategy.
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">DMID — Graphic Design</div>
+        <div class="edu-inst">Image Creative Education, Chennai</div>
+        <div class="edu-note">Formal training in graphic design, visual communication, and creative production.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Bachelor of Arts — Commerce</div>
+        <div class="edu-inst">Andhra University, Visakhapatnam</div>
+        <div class="edu-note">Undergraduate degree providing analytical and business-thinking foundations.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem" data-reveal>
+      <span class="section-tag" style="display:block;margin-bottom:1.25rem;">Certifications</span>
+      <div class="certs">
+        <div class="cert-pill">Enterprise Design Thinking Practitioner — IBM</div>
+        <div class="cert-pill">Certified Usability Analyst (Trained) — Human Factors International</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div>
+        <div class="footer-name">Let's create<br><em style="font-style:italic;color:var(--gold)">together.</em></div>
+        <p class="footer-tagline">Open to lead design roles, product partnerships, and freelance UX engagements. Based
+          in Hyderabad — available for remote or on-site work globally.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Get in Touch</div>
+        <a href="mailto:mohan.patcha@gmail.com" class="footer-link">mohan.patcha@gmail.com</a>
+        <a href="tel:+919885411775" class="footer-link">+91 98854 11775</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Find Me Online</div>
+        <a href="http://www.mohanpatcha.com" class="footer-link" target="_blank">mohanpatcha.com</a>
+        <a href="https://linkedin.com/in/mohanpatcha" class="footer-link" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Mohan Patcha · Hyderabad, IN</span>
+      <span class="footer-initials">M.P.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
 </body>
+
 </html>
