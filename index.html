@@ -239,7 +239,7 @@
     .hero-name {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: clamp(3.2rem, 11vw, 9.5rem);
+      font-size: clamp(3.2rem, 9vw, 8rem);
       line-height: .92;
       letter-spacing: -.035em;
       font-variation-settings: "opsz" 96;
@@ -249,15 +249,39 @@
       display: block;
     }
 
-    .hero-name .portrait {
-      width: .78em;
-      height: .78em;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-photo {
+      justify-self: end;
+      width: 100%;
+      position: relative;
+      margin: 18px;
+      max-width: calc(100% - 36px);
+    }
+
+    .hero-photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
       border-radius: 50%;
       object-fit: cover;
-      vertical-align: -.06em;
-      margin-left: .08em;
-      border: 3px solid var(--canvas);
-      box-shadow: 0 0 0 1.5px var(--line);
+      border: 6px solid var(--canvas);
+      box-shadow: 0 0 0 1.5px var(--line), 0 30px 80px rgba(0, 0, 0, .35);
+    }
+
+    /* Dashed spec ring around the portrait */
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      border: 1px dashed rgba(61, 155, 255, .45);
+      pointer-events: none;
     }
 
     /* Redline measurement under the frame */
@@ -886,6 +910,16 @@
 
     /* ───────────────────────── Responsive ───────────────────────── */
     @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .hero-photo {
+        order: -1;
+        width: min(260px, 62vw);
+      }
+
 
       .section-head,
       .about-grid,
@@ -987,6 +1021,8 @@
     <!-- HERO -->
     <section class="hero">
       <div class="wrap">
+        <div class="hero-grid">
+        <div class="hero-text">
         <div class="frame-name">
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
             <path d="M3 0v12M9 0v12M0 3h12M0 9h12" />
@@ -997,8 +1033,7 @@
         <h1 class="hero-name">
           <span class="selection" id="nameFrame">
             <span class="row">Mohan</span>
-            <span class="row">Patcha<img class="portrait" src="Mohan-portrait in black hoodie.png"
-                alt="Portrait of Mohan Patcha"></span>
+            <span class="row">Patcha</span>
             <span class="handle tl" aria-hidden="true"></span>
             <span class="handle tr" aria-hidden="true"></span>
             <span class="handle bl" aria-hidden="true"></span>
@@ -1021,6 +1056,12 @@
           <a href="#experience" class="btn btn-primary">See my work</a>
           <a href="Mohan_Patcha_Resume.pdf" class="btn btn-ghost" download="Mohan_Patcha_Resume.pdf">Download
             resume</a>
+        </div>
+        </div>
+
+        <figure class="hero-photo">
+          <img src="Mohan-portrait in black hoodie.png" alt="Portrait of Mohan Patcha">
+        </figure>
         </div>
 
         <dl class="props" style="margin-top: clamp(3rem, 6vw, 4.5rem)">
