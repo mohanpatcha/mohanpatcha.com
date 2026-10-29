@@ -5,12 +5,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mohan Patcha — Lead Product Designer</title>
+  <meta name="description"
+    content="Mohan Patcha is a lead product designer with 14+ years in enterprise UX, design systems and AI-native interfaces.">
   <link rel="icon" type="image/png" href="Mohan-portrait in black hoodie.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <style>
+    /* ───────────────────────── Tokens ───────────────────────── */
+    :root {
+      --canvas: #1a1f2b;
+      --panel: #222838;
+      --panel-2: #2a3144;
+      --line: #343c52;
+      --text: #e9ecf2;
+      --dim: #9aa3b8;
+      --faint: #6b7590;
+      --select: #3d9bff;
+      --redline: #ff5277;
+
+      --font-display: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+      --font-body: 'Geist', system-ui, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+      --gutter: clamp(1rem, 4vw, 3.5rem);
+      --max: 1240px;
+      --radius-s: 4px;
+      --radius-m: 10px;
+    }
+
     *,
     *::before,
     *::after {
@@ -19,812 +44,917 @@
       padding: 0;
     }
 
-    :root {
-      --ink: #1a1512;
-      --paper: #f5f0ea;
-      --cream: #ede7de;
-      --rust: #b5471b;
-      --rust-light: #d45e2a;
-      --gold: #c9a84c;
-      --muted: #7a7168;
-      --rule: #d0c9be;
-      --highlight: rgb(213, 234, 82);
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-    }
-
-    ::selection {
-      background: var(--highlight);
-      color: var(--ink);
-    }
-
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
     }
 
     body {
-      background: var(--paper);
-      color: var(--ink);
+      background: var(--canvas);
+      color: var(--text);
       font-family: var(--font-body);
-      font-size: 16px;
+      font-size: 1.0625rem;
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      /* Canvas dot grid, like an empty design file */
+      background-image: radial-gradient(circle at 1px 1px, rgba(154, 163, 184, .13) 1px, transparent 0);
+      background-size: 24px 24px;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      z-index: 999;
+    ::selection {
+      background: var(--select);
+      color: #fff;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--select);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    .token {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--faint);
+      letter-spacing: 0;
+    }
+
+    /* ───────────────────────── Nav ───────────────────────── */
+    .topbar {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+      z-index: 50;
+      background: rgba(26, 31, 43, .86);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar .wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.25rem 3rem;
-      background: var(--paper);
-      border-bottom: 1px solid var(--rule);
-      mix-blend-mode: normal;
+      gap: 1.5rem;
+      height: 3.5rem;
     }
 
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-      color: var(--ink);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
       text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .brand img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: .25rem;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: .8rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
+      display: block;
+      padding: .35rem .7rem;
+      border-radius: var(--radius-s);
+      font-size: .875rem;
+      color: var(--dim);
       text-decoration: none;
-      transition: color .2s;
     }
 
     .nav-links a:hover {
-      color: var(--rust);
+      color: var(--text);
+      background: var(--panel-2);
     }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      padding: 8rem 3rem 5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: 'UX';
-      position: absolute;
-      right: -0.05em;
-      bottom: -0.15em;
-      font-family: var(--font-display);
-      font-size: 28vw;
-      font-weight: 900;
-      color: var(--cream);
-      pointer-events: none;
-      line-height: 1;
-      user-select: none;
-    }
-
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 1.5rem;
-      padding-bottom: .4rem;
-      border-bottom: 1px solid var(--rust);
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3.5rem, 6vw, 6.5rem);
-      line-height: 1.02;
-      font-weight: 900;
-      letter-spacing: -.02em;
-      margin-bottom: 2rem;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--rust);
-    }
-
-    .hero-avatar {
-      width: 1.65em;
-      height: 1.65em;
-      border-radius: 50%;
-      object-fit: cover;
-      vertical-align: middle;
-      display: inline-block;
-      margin-left: 0.15em;
-      margin-bottom: 0;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-      border: 4px solid var(--paper);
-    }
-
-    .hero-subtitle {
-      font-size: 1rem;
-      color: var(--muted);
-      font-weight: 300;
-      max-width: 42ch;
-      line-height: 1.75;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-cta {
+    .btn {
       display: inline-flex;
       align-items: center;
-      gap: .75rem;
-      background: var(--ink);
-      color: var(--paper);
+      gap: .5rem;
+      padding: .7rem 1.2rem;
+      border-radius: var(--radius-s);
+      font: 500 .9375rem/1 var(--font-body);
       text-decoration: none;
-      padding: .9rem 2rem;
-      font-size: .78rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      transition: background .25s, color .25s;
+      border: 1px solid transparent;
+      transition: background .15s, border-color .15s;
     }
 
-    .hero-cta:hover {
-      background: var(--highlight);
-      color: var(--ink);
+    .btn-primary {
+      background: var(--select);
+      color: #fff;
     }
 
-    .hero-cta::after {
-      content: '→';
-      font-size: 1rem;
+    .btn-primary:hover {
+      background: #5aabff;
+    }
+
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--dim);
+    }
+
+    .btn-small {
+      padding: .45rem .8rem;
+      font-size: .8125rem;
+    }
+
+    /* ───────────────────────── Hero ───────────────────────── */
+    .hero {
+      padding: clamp(4rem, 10vw, 7.5rem) 0 clamp(3rem, 6vw, 5rem);
+    }
+
+    .frame-name {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .8125rem;
+      color: var(--select);
+      margin-bottom: .6rem;
+    }
+
+    .frame-name svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* The signature element: name inside a live selection frame */
+    .selection {
+      position: relative;
+      display: inline-block;
+      padding: .1em .22em .14em;
+      outline: 1.5px solid var(--select);
+      outline-offset: 0;
+    }
+
+    .selection .handle {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background: #fff;
+      border: 1.5px solid var(--select);
+    }
+
+    .handle.tl { top: -5px; left: -5px; }
+    .handle.tr { top: -5px; right: -5px; }
+    .handle.bl { bottom: -5px; left: -5px; }
+    .handle.br { bottom: -5px; right: -5px; }
+
+    .selection .size {
+      position: absolute;
+      left: 50%;
+      bottom: -2.1rem;
+      transform: translateX(-50%);
+      background: var(--select);
+      color: #fff;
+      font: 500 .75rem/1 var(--font-mono);
+      padding: .3rem .45rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      letter-spacing: 0;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(3.2rem, 11vw, 9.5rem);
+      line-height: .92;
+      letter-spacing: -.035em;
+      font-variation-settings: "opsz" 96;
+    }
+
+    .hero-name .row {
+      display: block;
+    }
+
+    .hero-name .portrait {
+      width: .78em;
+      height: .78em;
+      border-radius: 50%;
+      object-fit: cover;
+      vertical-align: -.06em;
+      margin-left: .08em;
+      border: 3px solid var(--canvas);
+      box-shadow: 0 0 0 1.5px var(--line);
+    }
+
+    /* Redline measurement under the frame */
+    .redline {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin: 3.6rem 0 2rem;
+      color: var(--redline);
+      font: 500 .8125rem/1 var(--font-mono);
+      max-width: 640px;
+    }
+
+    .redline .bar {
+      flex: 1;
+      height: 1px;
+      background: var(--redline);
+      position: relative;
+    }
+
+    .redline .bar::before,
+    .redline .bar::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      width: 1px;
+      height: 11px;
+      background: var(--redline);
+    }
+
+    .redline .bar::before { left: 0; }
+    .redline .bar::after { right: 0; }
+
+    .hero-lede {
+      max-width: 34ch;
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-sub {
+      max-width: 58ch;
+      color: var(--dim);
+      margin-bottom: 2rem;
     }
 
     .hero-actions {
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
+      gap: .75rem;
     }
 
-    .hero-cta-secondary {
-      background: transparent;
-      color: var(--ink);
-      box-shadow: inset 0 0 0 1px var(--ink);
+    /* Hero load sequence — the one orchestrated moment */
+    @media (prefers-reduced-motion: no-preference) {
+      .selection {
+        animation: select-in .5s .35s both cubic-bezier(.2, .7, .2, 1);
+      }
+
+      .selection .handle,
+      .selection .size {
+        animation: fade .3s .8s both;
+      }
+
+      .redline .bar {
+        transform-origin: left;
+        animation: draw .7s 1s both cubic-bezier(.2, .7, .2, 1);
+      }
+
+      .redline span {
+        animation: fade .3s 1.5s both;
+      }
+
+      @keyframes select-in {
+        from { outline-color: transparent; }
+        to { outline-color: var(--select); }
+      }
+
+      @keyframes fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes draw {
+        from { transform: scaleX(0); }
+        to { transform: scaleX(1); }
+      }
     }
 
-    .hero-cta-secondary:hover {
-      background: var(--ink);
-      color: var(--paper);
-    }
-
-    .hero-cta-secondary::after {
-      content: '↓';
-      font-size: 1.1rem;
-    }
-
-    .hero-stats {
+    /* ───────────────────────── Properties strip (stats) ───────────────────────── */
+    .props {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      position: relative;
-      z-index: 2;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      background: var(--panel);
+      overflow: hidden;
     }
 
-    .stat {
-      padding: 2rem;
-      background: var(--cream);
-      border-left: 3px solid var(--rust);
+    .prop {
+      padding: 1.25rem 1.4rem;
+      border-left: 1px solid var(--line);
     }
 
-    .stat-number {
+    .prop:first-child {
+      border-left: 0;
+    }
+
+    .prop dt {
+      font-size: .875rem;
+      color: var(--dim);
+      margin-top: .35rem;
+    }
+
+    .prop dd {
       font-family: var(--font-display);
-      font-size: 3.5rem;
-      font-weight: 900;
+      font-weight: 600;
+      font-size: 2.25rem;
       line-height: 1;
-      color: var(--ink);
-      margin-bottom: .25rem;
+      letter-spacing: -.02em;
     }
 
-    .stat-label {
-      font-size: .75rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ── SECTION FRAME ── */
-    section {
-      padding: 6rem 3rem;
-    }
-
-    .section-header {
+    .props-wrap {
       display: flex;
-      align-items: flex-end;
-      gap: 1.5rem;
-      margin-bottom: 4rem;
+      flex-direction: column-reverse;
     }
 
-    .section-num {
-      font-family: var(--font-display);
-      font-size: 5rem;
-      font-weight: 900;
-      line-height: 1;
-      color: var(--rule);
-      flex-shrink: 0;
+    /* ───────────────────────── Sections ───────────────────────── */
+    .section {
+      padding: clamp(4rem, 9vw, 7rem) 0;
+      border-top: 1px solid var(--line);
     }
 
-    .section-title-wrap {
-      flex: 1;
-    }
-
-    .section-tag {
-      display: block;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: .25rem;
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(200px, 1fr) 2.4fr;
+      gap: 2rem 3rem;
+      align-items: end;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
     }
 
     .section-title {
       font-family: var(--font-display);
-      font-size: clamp(1.8rem, 3vw, 3rem);
-      font-weight: 700;
-      line-height: 1.1;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 5vw, 3.75rem);
+      line-height: 1;
+      letter-spacing: -.03em;
     }
 
-    hr.rule {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: 0 3rem;
+    .section-intro {
+      color: var(--dim);
+      max-width: 52ch;
     }
 
-    /* ── ABOUT ── */
+    /* ───────────────────────── About ───────────────────────── */
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
+      grid-template-columns: minmax(240px, 1fr) 2.4fr;
+      gap: 3rem;
       align-items: start;
     }
 
-    .about-aside {
+    .inspector {
       position: sticky;
-      top: 6rem;
+      top: 5rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      font-size: .875rem;
     }
 
-    .about-label {
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: .5rem;
-      display: block;
+    .inspector-group {
+      padding: 1rem 1.1rem;
+      border-top: 1px solid var(--line);
     }
 
-    .about-contact-item {
-      display: block;
-      font-size: .9rem;
-      color: var(--ink);
+    .inspector-group:first-child {
+      border-top: 0;
+    }
+
+    .inspector h3 {
+      font-size: .8125rem;
+      font-weight: 600;
+      margin-bottom: .55rem;
+    }
+
+    .inspector .kv {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .2rem 0;
+      color: var(--dim);
+    }
+
+    .inspector .kv span:last-child,
+    .inspector .kv a {
+      color: var(--text);
+      text-align: right;
+    }
+
+    .inspector a {
       text-decoration: none;
-      margin-bottom: .4rem;
-      transition: color .2s;
     }
 
-    .about-contact-item:hover {
-      color: var(--rust);
+    .inspector a:hover {
+      color: var(--select);
     }
 
-    .about-divider {
-      margin: 1.75rem 0;
-      border: none;
-      border-top: 1px solid var(--rule);
+    .about-body {
+      max-width: 68ch;
     }
 
-    .about-body p {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: var(--ink);
-      margin-bottom: 1.5rem;
-      font-weight: 300;
-    }
-
-    .about-body p:first-child {
+    .about-body .quote {
       font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-style: italic;
-      line-height: 1.55;
-      font-weight: 400;
+      font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      margin-bottom: 2rem;
+      padding-left: 1.25rem;
+      border-left: 2px solid var(--redline);
     }
 
-    .about-body ul {
-      margin-bottom: 1.5rem;
-      padding-left: 1.5rem;
-      color: var(--ink);
+    .about-body>p {
+      color: #c8cedb;
+      margin-bottom: 1.1rem;
     }
 
-    .about-body li {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      font-weight: 300;
-      margin-bottom: 0.25rem;
+    .about-blocks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.25rem 2.5rem;
+      margin-top: 2.75rem;
     }
 
-    .about-heading {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 0.5rem;
+    .about-blocks .wide {
+      grid-column: 1 / -1;
     }
 
-    /* ── EXPERIENCE TIMELINE ── */
-    .timeline {
+    .about-blocks h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: .75rem;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .about-blocks p {
+      color: #c8cedb;
+      font-size: .9375rem;
+      margin-bottom: .6rem;
+    }
+
+    .about-blocks ul {
+      list-style: none;
+    }
+
+    .about-blocks li {
       position: relative;
+      padding: .3rem 0 .3rem 1.1rem;
+      color: #c8cedb;
+      font-size: .9375rem;
+      line-height: 1.5;
+    }
+
+    .about-blocks li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .85em;
+      width: 6px;
+      height: 6px;
+      border: 1.5px solid var(--select);
+      transform: rotate(45deg);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .chip {
+      font-family: var(--font-mono);
+      font-size: .8125rem;
+      padding: .35rem .65rem;
+      border-radius: var(--radius-s);
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    /* ───────────────────────── Work: layer list ───────────────────────── */
+    .layers {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      background: var(--panel);
+      overflow: hidden;
+      margin-bottom: clamp(3.5rem, 7vw, 5rem);
+    }
+
+    .layers-head,
+    .layer {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1.2fr 7.5rem;
+      gap: 1.5rem;
+      align-items: center;
+      padding: .95rem 1.25rem;
+    }
+
+    .layers-head {
+      font-size: .8125rem;
+      color: var(--faint);
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    .layer {
+      border-top: 1px solid var(--line);
+    }
+
+    .layers-head+.layer {
+      border-top: 0;
+    }
+
+    .layer:hover {
+      background: rgba(61, 155, 255, .07);
+      box-shadow: inset 2px 0 0 var(--select);
+    }
+
+    .layer-title {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .layer-title svg {
+      flex: none;
+      margin-top: .25rem;
+      width: 14px;
+      height: 14px;
+      color: var(--faint);
+    }
+
+    .layer-org {
+      color: var(--text);
+      font-size: .9375rem;
+    }
+
+    .layer-scope {
+      color: var(--dim);
+      font-size: .875rem;
+      line-height: 1.45;
+    }
+
+    .tag {
+      justify-self: start;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      padding: .25rem .5rem;
+      border-radius: 3px;
+      border: 1px solid currentColor;
+    }
+
+    .tag-enterprise { color: #8fc1ff; }
+    .tag-consulting { color: #c9a5ff; }
+    .tag-saas { color: #7fe0c1; }
+    .tag-fintech { color: #ffc27a; }
+
+    /* Career timeline — a real sequence, newest first */
+    .subhead {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.5rem;
+      letter-spacing: -.01em;
+      margin-bottom: 1.75rem;
+    }
+
+    .timeline {
+      list-style: none;
+      position: relative;
+      max-width: 880px;
     }
 
     .timeline::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 7px;
+      top: .6rem;
+      bottom: .6rem;
       width: 1px;
-      background: var(--rule);
+      background: var(--line);
     }
 
-    .timeline-item {
-      padding: 0 0 3.5rem 2.5rem;
+    .timeline li {
       position: relative;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: .5rem 2.5rem;
+      padding: 0 0 2.5rem 2.5rem;
     }
 
-    .timeline-item::before {
+    .timeline li:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline li::before {
       content: '';
       position: absolute;
-      left: -4px;
-      top: .5rem;
-      width: 9px;
-      height: 9px;
+      left: 2px;
+      top: .45rem;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
-      background: var(--paper);
-      border: 2px solid var(--rule);
-      transition: border-color .2s, background .2s;
+      background: var(--canvas);
+      border: 2px solid var(--faint);
     }
 
-    .timeline-item:hover::before {
-      border-color: var(--rust);
-      background: var(--rust);
+    .timeline li:first-child::before {
+      border-color: var(--select);
+      background: var(--select);
+      box-shadow: 0 0 0 4px rgba(61, 155, 255, .2);
     }
 
-    .timeline-meta {
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: .35rem;
+    .t-role {
+      font-weight: 600;
+      line-height: 1.35;
     }
 
-    .timeline-role {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      font-weight: 700;
-      margin-bottom: .2rem;
+    .t-org {
+      color: var(--select);
+      font-size: .9375rem;
     }
 
-    .timeline-org {
-      font-size: .9rem;
-      color: var(--rust);
-      font-weight: 500;
-      margin-bottom: .85rem;
+    .t-where {
+      color: var(--faint);
+      font-size: .8125rem;
+      margin-top: .15rem;
     }
 
-    .timeline-desc {
-      font-size: .9rem;
-      color: var(--muted);
-      line-height: 1.75;
-      font-weight: 300;
+    .t-desc {
+      color: var(--dim);
+      font-size: .9375rem;
     }
 
-    /* ── EXPERTISE ── */
-    .expertise-bg {
-      background: var(--ink);
-      color: var(--paper);
-    }
-
-    .expertise-bg .section-title {
-      color: var(--paper);
-    }
-
-    .expertise-bg .section-num {
-      color: #2a2520;
-    }
-
-    .expertise-bg .section-tag {
-      color: var(--gold);
-    }
-
-    .skills-grid {
+    /* ───────────────────────── Expertise ───────────────────────── */
+    .skills {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1px;
-      background: #2a2520;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 3rem;
     }
 
-    .skill-card {
-      background: var(--ink);
-      padding: 2.25rem 2.5rem;
-      transition: background .2s;
-      cursor: default;
-    }
-
-    .skill-card:hover {
-      background: #221e1a;
-    }
-
-    .skill-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .skill-name {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: .5rem;
-      color: var(--paper);
-    }
-
-    .skill-desc {
-      font-size: .82rem;
-      color: #9a9088;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* ── PROJECTS ── */
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .project-row {
+    .skill {
       display: grid;
-      grid-template-columns: 80px 1fr auto;
-      align-items: center;
-      gap: 2rem;
-      padding: 2.25rem 0;
-      border-bottom: 1px solid var(--rule);
-      transition: background .15s;
-      text-decoration: none;
-      color: inherit;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--line);
     }
 
-    .project-row:first-child {
-      border-top: 1px solid var(--rule);
-    }
-
-    .project-num {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--rule);
-      line-height: 1;
-      text-align: center;
-    }
-
-    .project-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: .2rem;
-    }
-
-    .project-meta {
-      font-size: .8rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    .project-tag {
-      font-size: .68rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--rust);
-      background: rgba(181, 71, 27, .08);
-      padding: .3rem .8rem;
-      white-space: nowrap;
-    }
-
-    /* ── EDUCATION ── */
-    .edu-grid {
+    .skill-glyph {
+      width: 2.5rem;
+      height: 2.5rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
+      place-items: center;
+      border-radius: var(--radius-s);
+      background: var(--panel-2);
+      color: var(--select);
+      font-size: 1.1rem;
     }
 
-    .edu-card {
-      padding: 2.25rem;
-      border: 1px solid var(--rule);
-      position: relative;
-      transition: border-color .2s;
+    .skill h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: .3rem;
     }
 
-    .edu-card:hover {
-      border-color: var(--rust);
+    .skill p {
+      color: var(--dim);
+      font-size: .9375rem;
     }
 
-    .edu-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: var(--rust);
-      transition: width .35s ease;
+    .tools {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: minmax(200px, 1fr) 2.4fr;
+      gap: 1rem 3rem;
+      align-items: start;
     }
 
-    .edu-card:hover::before {
-      width: 100%;
+    .tools h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* ───────────────────────── Education ───────────────────────── */
+    .edu {
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .edu li {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1.6fr;
+      gap: .5rem 2.5rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--line);
     }
 
     .edu-degree {
       font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: .3rem;
+      font-weight: 600;
+      font-size: 1.15rem;
+      line-height: 1.3;
     }
 
     .edu-inst {
-      font-size: .82rem;
-      color: var(--rust);
-      font-weight: 500;
-      margin-bottom: .6rem;
+      color: var(--text);
+      font-size: .9375rem;
     }
 
     .edu-note {
-      font-size: .8rem;
-      color: var(--muted);
-      font-weight: 300;
+      color: var(--dim);
+      font-size: .9375rem;
     }
 
-    /* ── CERTIFICATIONS ── */
     .certs {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .cert-pill {
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-      background: var(--highlight);
-      padding: .8rem 1.4rem;
-      font-size: .82rem;
-      font-weight: 500;
-    }
-
-    .cert-pill::before {
-      content: '✦';
-      color: var(--gold);
-      font-size: .75rem;
-    }
-
-    /* ── TOOLS MARQUEE ── */
-    .tools-section {
-      background: var(--highlight);
-      padding: 3rem 0;
-      overflow: hidden;
-    }
-
-    .tools-section .tool-item {
-      color: var(--ink);
-      font-weight: 700;
-    }
-
-    .tools-section .tool-dot {
-      color: rgba(26, 21, 18, 0.4);
-    }
-
-    .tools-track {
-      display: flex;
-      gap: 3rem;
-      animation: marquee 18s linear infinite;
-      white-space: nowrap;
-    }
-
-    @keyframes marquee {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    .tool-item {
-      font-size: .78rem;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .tool-dot {
-      color: var(--rust);
-      margin-right: 3rem;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      color: var(--paper);
-      padding: 5rem 3rem 3rem;
-    }
-
-    .footer-top {
+      margin-top: 2.75rem;
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 4rem;
-      margin-bottom: 4rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
 
-    .footer-name {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: .75rem;
+    .cert {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.1rem 1.25rem;
+      border-radius: var(--radius-m);
+      background: var(--panel);
+      border: 1px solid var(--line);
     }
 
-    .footer-tagline {
-      font-size: .9rem;
-      color: #9a9088;
-      font-weight: 300;
-      line-height: 1.7;
-      max-width: 38ch;
+    .cert svg {
+      flex: none;
+      color: var(--redline);
     }
 
-    .footer-col-title {
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.25rem;
-    }
-
-    .footer-link {
+    .cert strong {
       display: block;
-      font-size: .9rem;
-      color: #9a9088;
-      text-decoration: none;
-      margin-bottom: .6rem;
-      transition: color .2s;
+      font-weight: 500;
     }
 
-    .footer-link:hover {
-      color: var(--paper);
+    .cert span {
+      color: var(--dim);
+      font-size: .875rem;
+    }
+
+    /* ───────────────────────── Footer ───────────────────────── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: clamp(4.5rem, 10vw, 8rem) 0 2rem;
+      background: linear-gradient(to bottom, transparent, rgba(61, 155, 255, .06));
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.6rem, 8vw, 6.5rem);
+      line-height: .95;
+      letter-spacing: -.035em;
+      max-width: 12ch;
+      margin-bottom: 1.75rem;
+    }
+
+    .cta-sub {
+      color: var(--dim);
+      max-width: 52ch;
+      margin-bottom: 2rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3.5rem;
+    }
+
+    .contact-card {
+      display: block;
+      padding: 1.1rem 1.25rem;
+      border-radius: var(--radius-m);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      text-decoration: none;
+      transition: border-color .15s;
+    }
+
+    .contact-card:hover {
+      border-color: var(--select);
+    }
+
+    .contact-card small {
+      display: block;
+      color: var(--faint);
+      font-size: .8125rem;
+      margin-bottom: .2rem;
     }
 
     .footer-bottom {
-      border-top: 1px solid #2a2520;
-      padding-top: 2rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      gap: 1rem;
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
+      font-size: .8125rem;
     }
 
-    .footer-copy {
-      font-size: .75rem;
-      color: #5a5248;
-      letter-spacing: .05em;
-    }
+    /* ───────────────────────── Responsive ───────────────────────── */
+    @media (max-width: 960px) {
 
-    .footer-initials {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
-      color: #5a5248;
-      letter-spacing: .1em;
-    }
-
-    /* ── REVEAL ANIMATIONS ── */
-    [data-reveal] {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-
-    [data-reveal].visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav {
-        padding: 1rem 1.5rem;
-      }
-
-      .nav-links {
-        gap: 1.5rem;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 7rem 1.5rem 4rem;
-      }
-
-      .hero::after {
-        font-size: 35vw;
-      }
-
-      .about-grid {
+      .section-head,
+      .about-grid,
+      .tools {
         grid-template-columns: 1fr;
       }
 
-      .about-aside {
+      .inspector {
         position: static;
       }
 
-      section {
-        padding: 4rem 1.5rem;
+      .layers-head {
+        display: none;
       }
 
-      hr.rule {
-        margin: 0 1.5rem;
+      .layer {
+        grid-template-columns: 1fr auto;
+        gap: .35rem 1rem;
       }
 
-      .footer-top {
+      .layer-title { grid-column: 1; }
+      .tag { grid-column: 2; grid-row: 1; justify-self: end; }
+      .layer-org, .layer-scope { grid-column: 1 / -1; padding-left: 1.6rem; }
+
+      .edu li {
         grid-template-columns: 1fr;
-        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
       }
 
-      .hero-stats {
+      .props {
         grid-template-columns: 1fr 1fr;
       }
 
-      .project-row {
-        grid-template-columns: 60px 1fr;
+      .prop:nth-child(3) {
+        border-left: 0;
       }
 
-      .project-tag {
-        display: none;
+      .prop:nth-child(n+3) {
+        border-top: 1px solid var(--line);
+      }
+
+      .about-blocks,
+      .skills,
+      .certs,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline li {
+        grid-template-columns: 1fr;
+      }
+
+      .selection .size {
+        font-size: .6875rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
       }
     }
   </style>
@@ -832,499 +962,556 @@
 
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">MP.</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Work</a></li>
-      <li><a href="#expertise">Skills</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content" data-reveal>
-      <span class="hero-eyebrow">Lead Product Designer · 14+ Years</span>
-      <h1 class="hero-title">Mohan <img src="Mohan-portrait in black hoodie.png" alt="Mohan Patcha" class="hero-avatar"><br><em>Patcha</em>
-      </h1>
-      <p class="hero-subtitle">AI-Driven UX Leader | Enterprise Product Designer | Building Scalable Design Systems &
-        AI-Powered Interfaces | React + AI UI Development | From Research to AI-Driven UI Development</p>
-      <div class="hero-actions">
-        <a href="#experience" class="hero-cta">View My Work</a>
-        <a href="Mohan_Patcha_Resume.pdf" class="hero-cta hero-cta-secondary" download="Resume">Download Resume</a>
-      </div>
-    </div>
-
-    <div class="hero-stats" data-reveal>
-      <div class="stat">
-        <div class="stat-number">14+</div>
-        <div class="stat-label">Years Experience</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">50+</div>
-        <div class="stat-label">Products Designed</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">10+</div>
-        <div class="stat-label">Designers Mentored</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">6</div>
-        <div class="stat-label">Companies Shaped</div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- TOOLS MARQUEE -->
-  <div class="tools-section">
-    <div class="tools-track" aria-hidden="true">
-      <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
-      <!-- duplicate for seamless loop -->
-      <span class="tool-item">Figma<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Adobe Creative Suite<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Design Systems<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">User Research<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Usability Testing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Wireframing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Information Architecture<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Interaction Design<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Prototyping<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">A/B Testing<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Sprint Management<span class="tool-dot"> ✦</span></span>
-      <span class="tool-item">Scrum Master<span class="tool-dot"> ✦</span></span>
-    </div>
-  </div>
-
-  <hr class="rule">
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-header" data-reveal>
-      <span class="section-num">01</span>
-      <div class="section-title-wrap">
-        <span class="section-tag">Background</span>
-        <h2 class="section-title">The Designer<br>Behind the Work</h2>
-      </div>
-    </div>
-
-    <div class="about-grid">
-      <aside class="about-aside" data-reveal>
-        <span class="about-label">Location</span>
-        <span class="about-contact-item">Hyderabad, Telangana</span>
-
-        <hr class="about-divider">
-
-        <span class="about-label">Contact</span>
-        <a href="tel:+919885417755" class="about-contact-item">+91 98854 17755</a>
-        <a href="mailto:mohan.patcha@gmail.com" class="about-contact-item">mohan.patcha@gmail.com</a>
-
-        <hr class="about-divider">
-
-        <span class="about-label">Online</span>
-        <a href="http://www.mohanpatcha.com" class="about-contact-item" target="_blank">mohanpatcha.com</a>
-        <a href="https://linkedin.com/in/mohanpatcha" class="about-contact-item" target="_blank">LinkedIn</a>
-        <a href="https://www.behance.net/mohanpatcha" class="about-contact-item" target="_blank">Behance</a>
-
-        <hr class="about-divider">
-
-        <span class="about-label">Languages</span>
-        <span class="about-contact-item">English — Advanced (C1)</span>
-        <span class="about-contact-item">Hindi — Upper Intermediate (B2)</span>
-        <span class="about-contact-item">Telugu — Proficient (C2)</span>
-      </aside>
-
-      <div class="about-body" data-reveal>
-        <p>"I design AI-powered, scalable product experiences that simplify complex systems and drive measurable
-          business impact."</p>
-
-        <p>I’m Mohan Patcha, a UX Leader with 14+ years of experience across enterprise SaaS, platform design, and
-          large-scale systems. I specialize in end-to-end product design, from user research and interaction design to
-          production-ready UI development.</p>
-
-        <p>My current focus is on AI-first product design, where I integrate Generative AI, machine learning-driven
-          interactions, and intelligent workflows directly into user experiences.</p>
-
-        <div class="about-heading">🔹 Core Expertise</div>
-        <ul>
-          <li>AI Product Design (Generative AI, AI Copilots, LLM UX)</li>
-          <li>UX Strategy &amp; Product Thinking</li>
-          <li>End-to-End Product Design (0&rarr;1, 1&rarr;N scaling)</li>
-          <li>Design Systems (Token-based, Scalable Architecture)</li>
-          <li>Interaction Design &amp; Information Architecture</li>
-          <li>Enterprise UX / SaaS Platforms</li>
-          <li>Data-Driven Design (A/B Testing, Analytics, Experimentation)</li>
-          <li>UI Development (React, Component Libraries, Design-to-Code)</li>
-          <li>Human-AI Interaction (HAI)</li>
-          <li>Accessibility (WCAG), Usability &amp; Heuristic Evaluation</li>
+  <header class="topbar">
+    <div class="wrap">
+      <a href="#top" class="brand">
+        <img src="Mohan-portrait in black hoodie.png" alt="">
+        Mohan Patcha
+      </a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Work</a></li>
+          <li><a href="#expertise">Skills</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
-
-        <div class="about-heading">🔹 What I Deliver</div>
-        <ul>
-          <li>Design AI-driven user experiences that improve efficiency, automation, and decision-making</li>
-          <li>Build scalable design systems used across products and teams</li>
-          <li>Translate complex workflows into intuitive, high-performing interfaces</li>
-          <li>Collaborate with cross-functional teams to ship impactful, production-ready solutions</li>
-          <li>Bridge the gap between design and engineering through hands-on UI development</li>
-        </ul>
-
-        <div class="about-heading">🔹 AI + UX Vision</div>
-        <p style="margin-bottom: 0.5rem; margin-top: -0.25rem;">I focus on building the next generation of interfaces:
-        </p>
-        <ul>
-          <li>AI copilots embedded in products</li>
-          <li>Adaptive, context-aware user experiences</li>
-          <li>Prompt-driven and conversational interfaces</li>
-          <li>Dynamic UI generation using AI + design systems</li>
-        </ul>
-
-        <p>I actively leverage AI tools for design acceleration, prototyping, and UI generation, enabling faster and
-          smarter product development.</p>
-
-        <div class="about-heading">🔹 Leadership &amp; Impact</div>
-        <ul>
-          <li>Led UX for enterprise-scale platforms handling complex workflows</li>
-          <li>Established and scaled design systems for consistency and efficiency</li>
-          <li>Improved usability and reduced friction in mission-critical applications</li>
-          <li>Mentored designers and contributed to design maturity at org level</li>
-        </ul>
-
-        <div class="about-heading">🔹 Tech &amp; Tools (ATS Boost)</div>
-        <p>Figma &bull; React.js &bull; TypeScript &bull; Design Systems &bull; Prompt Engineering &bull; AI Tools
-          &bull; Prototyping &bull; User Research &bull; Usability Testing &bull; Analytics Tools</p>
-
-        <div class="about-heading">🔹 Open To</div>
-        <ul>
-          <li>Senior / Staff / Principal Product Designer roles</li>
-          <li>UX Leadership opportunities</li>
-          <li>AI Product Design &amp; Platform Design roles</li>
-        </ul>
-      </div>
+      </nav>
+      <a href="Mohan_Patcha_Resume.pdf" class="btn btn-ghost btn-small" download="Mohan_Patcha_Resume.pdf">Resume
+        PDF</a>
     </div>
-  </section>
+  </header>
 
-  <hr class="rule">
+  <main id="top">
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="section-header" data-reveal>
-      <span class="section-num">02</span>
-      <div class="section-title-wrap">
-        <span class="section-tag">Career History</span>
-        <h2 class="section-title">A Progression<br>in Design Leadership</h2>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="frame-name">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3 0v12M9 0v12M0 3h12M0 9h12" />
+          </svg>
+          Lead Product Designer
+        </div>
+
+        <h1 class="hero-name">
+          <span class="selection" id="nameFrame">
+            <span class="row">Mohan</span>
+            <span class="row">Patcha<img class="portrait" src="Mohan-portrait in black hoodie.png"
+                alt="Portrait of Mohan Patcha"></span>
+            <span class="handle tl" aria-hidden="true"></span>
+            <span class="handle tr" aria-hidden="true"></span>
+            <span class="handle bl" aria-hidden="true"></span>
+            <span class="handle br" aria-hidden="true"></span>
+            <span class="size" id="frameSize" aria-hidden="true">Hug × Hug</span>
+          </span>
+        </h1>
+
+        <div class="redline" aria-hidden="true">
+          <div class="bar"></div><span>14+ years</span>
+        </div>
+
+        <p class="hero-lede">I design AI-powered, scalable product experiences that make complex enterprise systems
+          feel simple.</p>
+        <p class="hero-sub">UX leader across enterprise SaaS, platform design and design systems — from research and
+          interaction design to production-ready React UI. Currently focused on AI copilots, LLM interfaces and
+          token-based design systems.</p>
+
+        <div class="hero-actions">
+          <a href="#experience" class="btn btn-primary">See my work</a>
+          <a href="Mohan_Patcha_Resume.pdf" class="btn btn-ghost" download="Mohan_Patcha_Resume.pdf">Download
+            resume</a>
+        </div>
+
+        <dl class="props" style="margin-top: clamp(3rem, 6vw, 4.5rem)">
+          <div class="prop props-wrap">
+            <dt>Years in UX</dt>
+            <dd>14+</dd>
+          </div>
+          <div class="prop props-wrap">
+            <dt>Products designed</dt>
+            <dd>50+</dd>
+          </div>
+          <div class="prop props-wrap">
+            <dt>Designers mentored</dt>
+            <dd>10+</dd>
+          </div>
+          <div class="prop props-wrap">
+            <dt>Companies shaped</dt>
+            <dd>6</dd>
+          </div>
+        </dl>
       </div>
-    </div>
+    </section>
 
-    <!-- FEATURED PROJECTS / NOTABLE WORK -->
-    <div class="projects-list" data-reveal style="margin-bottom:4rem;">
-      <div class="project-row">
-        <div class="project-num">01</div>
-        <div>
-          <div class="project-title">CORE &amp; Connect+ Platform, Order Management, Pricing, Invoice, Orbit, MDM -
-            Generator/Customer</div>
-          <div class="project-meta">Cleanearthinc · Lead Product Designer · Asset &amp; Waste Management Enterprise App
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">About</h2>
+          <p class="section-intro">The designer behind the work: how I think, what I deliver, and where I'm heading
+            next.</p>
+        </div>
+
+        <div class="about-grid">
+          <aside class="inspector" aria-label="Contact details">
+            <div class="inspector-group">
+              <h3>Location</h3>
+              <div class="kv"><span>Based in</span><span>Hyderabad, Telangana</span></div>
+              <div class="kv"><span>Works</span><span>Remote or on-site</span></div>
+            </div>
+            <div class="inspector-group">
+              <h3>Contact</h3>
+              <div class="kv"><span>Phone</span><a href="tel:+919885417755">+91 98854 17755</a></div>
+              <div class="kv"><span>Email</span><a href="mailto:mohan.patcha@gmail.com">mohan.patcha@gmail.com</a>
+              </div>
+            </div>
+            <div class="inspector-group">
+              <h3>Online</h3>
+              <div class="kv"><span>LinkedIn</span><a href="https://linkedin.com/in/mohanpatcha" target="_blank"
+                  rel="noopener">/in/mohanpatcha</a></div>
+              <div class="kv"><span>Behance</span><a href="https://www.behance.net/mohanpatcha" target="_blank"
+                  rel="noopener">/mohanpatcha</a></div>
+            </div>
+            <div class="inspector-group">
+              <h3>Languages</h3>
+              <div class="kv"><span>Telugu</span><span>Proficient (C2)</span></div>
+              <div class="kv"><span>English</span><span>Advanced (C1)</span></div>
+              <div class="kv"><span>Hindi</span><span>Upper intermediate (B2)</span></div>
+            </div>
+          </aside>
+
+          <div class="about-body">
+            <p class="quote">“I design AI-powered, scalable product experiences that simplify complex systems and drive
+              measurable business impact.”</p>
+
+            <p>I’m Mohan Patcha, a UX leader with 14+ years of experience across enterprise SaaS, platform design, and
+              large-scale systems. I specialize in end-to-end product design, from user research and interaction design
+              to production-ready UI development.</p>
+
+            <p>My current focus is AI-first product design, where I integrate generative AI, machine-learning-driven
+              interactions, and intelligent workflows directly into user experiences. I use AI tools daily for design
+              acceleration, prototyping, and UI generation.</p>
+
+            <div class="about-blocks">
+              <div>
+                <h3>Core expertise</h3>
+                <ul>
+                  <li>AI product design (generative AI, copilots, LLM UX)</li>
+                  <li>UX strategy &amp; product thinking</li>
+                  <li>End-to-end product design (0→1, 1→N scaling)</li>
+                  <li>Design systems (token-based, scalable architecture)</li>
+                  <li>Interaction design &amp; information architecture</li>
+                  <li>Enterprise UX and SaaS platforms</li>
+                  <li>Data-driven design (A/B testing, analytics)</li>
+                  <li>UI development (React, component libraries, design-to-code)</li>
+                  <li>Human-AI interaction</li>
+                  <li>Accessibility (WCAG), usability &amp; heuristic evaluation</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3>What I deliver</h3>
+                <ul>
+                  <li>AI-driven experiences that improve efficiency, automation, and decision-making</li>
+                  <li>Scalable design systems used across products and teams</li>
+                  <li>Complex workflows turned into intuitive, high-performing interfaces</li>
+                  <li>Production-ready solutions shipped with cross-functional teams</li>
+                  <li>Hands-on UI development that bridges design and engineering</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3>AI + UX vision</h3>
+                <p>The next generation of interfaces I'm building toward:</p>
+                <ul>
+                  <li>AI copilots embedded in products</li>
+                  <li>Adaptive, context-aware experiences</li>
+                  <li>Prompt-driven and conversational interfaces</li>
+                  <li>Dynamic UI generation using AI + design systems</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3>Leadership &amp; impact</h3>
+                <ul>
+                  <li>Led UX for enterprise-scale platforms with complex workflows</li>
+                  <li>Established and scaled design systems for consistency and speed</li>
+                  <li>Reduced friction in mission-critical applications</li>
+                  <li>Mentored designers and raised org-level design maturity</li>
+                </ul>
+              </div>
+
+              <div class="wide">
+                <h3>Open to</h3>
+                <div class="chips">
+                  <span class="chip">Senior / Staff / Principal Product Designer</span>
+                  <span class="chip">UX leadership</span>
+                  <span class="chip">AI product design</span>
+                  <span class="chip">Platform design</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <span class="project-tag">Enterprise</span>
       </div>
-      <div class="project-row">
-        <div class="project-num">02</div>
-        <div>
-          <div class="project-title">Corinex - Smart Grid Solutions, Trianz</div>
-          <div class="project-meta">Trianz · Design Architect · Design Strategy, Scrum Master, Data Visualisation</div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Work</h2>
+          <p class="section-intro">Enterprise platforms, consulting engagements and product suites — and the career
+            that led to them.</p>
         </div>
-        <span class="project-tag">Consulting</span>
-      </div>
-      <div class="project-row">
-        <div class="project-num">03</div>
-        <div>
-          <div class="project-title">Lowe's Marketplace Application</div>
-          <div class="project-meta">eTeam · Design Architect · Item Management &amp; Vendor Management Desktop Platform
+
+        <div class="layers" role="table" aria-label="Selected projects">
+          <div class="layers-head" role="row">
+            <span role="columnheader">Project</span>
+            <span role="columnheader">Company &amp; role</span>
+            <span role="columnheader">Scope</span>
+            <span role="columnheader">Type</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>CORE &amp; Connect+ platform — Order Management, Pricing, Invoice, Orbit, MDM (Generator / Customer)
+            </div>
+            <div class="layer-org" role="cell">Cleanearthinc<br><span class="token">Lead Product Designer</span></div>
+            <div class="layer-scope" role="cell">Asset &amp; waste management enterprise app</div>
+            <span class="tag tag-enterprise" role="cell">Enterprise</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>Corinex — Smart Grid Solutions</div>
+            <div class="layer-org" role="cell">Trianz<br><span class="token">Design Architect</span></div>
+            <div class="layer-scope" role="cell">Design strategy, Scrum Master, data visualisation</div>
+            <span class="tag tag-consulting" role="cell">Consulting</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>Lowe's Marketplace application</div>
+            <div class="layer-org" role="cell">eTeam<br><span class="token">Design Architect</span></div>
+            <div class="layer-scope" role="cell">Item &amp; vendor management desktop platform</div>
+            <span class="tag tag-enterprise" role="cell">Enterprise</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>ePragati — Visible Governance, Invisible Government</div>
+            <div class="layer-org" role="cell">Lollypop Design Studio<br><span class="token">Design Architect</span>
+            </div>
+            <div class="layer-scope" role="cell">Design strategy, Scrum Master, data visualisation</div>
+            <span class="tag tag-consulting" role="cell">Consulting</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>webMethods product suite</div>
+            <div class="layer-org" role="cell">Software AG<br><span class="token">Senior UX Designer</span></div>
+            <div class="layer-scope" role="cell">Active Patterns, Partner Cloud, CloudStreams</div>
+            <span class="tag tag-saas" role="cell">SaaS</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>Core, Internet &amp; Mobile Banking</div>
+            <div class="layer-org" role="cell">VSoft Technologies<br><span class="token">Specialist UI/UX</span></div>
+            <div class="layer-scope" role="cell">Full banking product suite redesign</div>
+            <span class="tag tag-fintech" role="cell">Fintech</span>
+          </div>
+
+          <div class="layer" role="row">
+            <div class="layer-title" role="cell"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                stroke-width="1.3" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="11" height="11" rx="1" />
+              </svg>UX Studio portfolio</div>
+            <div class="layer-org" role="cell">Trianz<br><span class="token">Design Architect</span></div>
+            <div class="layer-scope" role="cell">Design strategy, Scrum Master, data visualisation</div>
+            <span class="tag tag-consulting" role="cell">Consulting</span>
           </div>
         </div>
-        <span class="project-tag">Enterprise</span>
+
+        <h3 class="subhead">Career, most recent first</h3>
+        <ol class="timeline">
+          <li>
+            <div>
+              <div class="t-role">Lead Product Designer</div>
+              <div class="t-org">Cleanearthinc</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Led end-to-end UX for a waste management platform, running full-cycle research —
+              quantitative, qualitative, field studies, diary studies and usability testing. Managed cross-functional
+              collaboration, mentored junior designers, and championed data-driven design with A/B testing and
+              analytics.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Senior Product Designer</div>
+              <div class="t-org">Self-employed</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Ran independent design engagements with comprehensive style guides, inclusive design
+              principles, rapid prototyping in Figma, and data-driven decisions. Cut development time through iterative
+              design and clear stakeholder communication.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Design Architect</div>
+              <div class="t-org">eTeam</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Owned UX for the Lowe's Marketplace desktop application — item, vendor, price and barcode
+              management, asset grouping, and fulfilment.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Design Architect</div>
+              <div class="t-org">Trianz</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Project management, Scrum Master duties, PRDs, UX Studio portfolio, design strategy, data
+              visualisation, heuristic evaluation and personas. Built firm-wide design standards for consistency across
+              projects.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Design Lead</div>
+              <div class="t-org">Lollypop Design Studio</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Full UX delivery: requirements, design strategy, user interviews, design sprints,
+              wireframing, visual design, interactive prototyping, usability testing and stakeholder delivery. Led teams
+              of 10+ designers.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Senior User Experience Designer</div>
+              <div class="t-org">Software AG</div>
+              <div class="t-where">Enterprise software</div>
+            </div>
+            <p class="t-desc">End-to-end UX for the webMethods portfolio — Active Patterns, Partner Cloud and
+              CloudStreams. Stakeholder interviews, UX surveys, competitive analysis, brainwriting, crazy 8s,
+              storyboarding and interaction design. Wrote development guidelines.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Specialist UI/UX Designer, then Senior Usability Engineer</div>
+              <div class="t-org">VSoft Technologies Pvt. Ltd.</div>
+              <div class="t-where">Hyderabad, IN</div>
+            </div>
+            <p class="t-desc">Designed core, internet and mobile banking products. Led user interviews, task flows,
+              wireframes and usability testing.</p>
+          </li>
+          <li>
+            <div>
+              <div class="t-role">Web Designer</div>
+              <div class="t-org">Zen IT Solutions</div>
+              <div class="t-where">Early career</div>
+            </div>
+            <p class="t-desc">Web design and CD presentations — a foundation in digital design, visual communication
+              and client deliverables.</p>
+          </li>
+        </ol>
       </div>
-      <div class="project-row">
-        <div class="project-num">04</div>
-        <div>
-          <div class="project-title">ePragati Visible Governance - Invisible Government</div>
-          <div class="project-meta">Lolipop Design Studio · Design Architect · Design Strategy, Scrum Master, Data
-            Visualisation</div>
+    </section>
+
+    <!-- EXPERTISE -->
+    <section class="section" id="expertise">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Skills</h2>
+          <p class="section-intro">What I bring to every project, from first interview to shipped component.</p>
         </div>
-        <span class="project-tag">Consulting</span>
-      </div>
-      <div class="project-row">
-        <div class="project-num">05</div>
-        <div>
-          <div class="project-title">webMethods Product Suite</div>
-          <div class="project-meta">Software AG · Senior UX Designer · Active Patterns, Partner Cloud, Cloudstreams
+
+        <div class="skills">
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">◎</span>
+            <div>
+              <h3>User research</h3>
+              <p>Quantitative and qualitative methods, field and diary studies, interviews, surveys, card sorting,
+                empathy mapping, competitive analysis.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">⬡</span>
+            <div>
+              <h3>Design systems</h3>
+              <p>Reusable component libraries, style guides and token architecture that keep products consistent
+                across platforms.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">◈</span>
+            <div>
+              <h3>Interaction design</h3>
+              <p>Wireframes, prototypes, storyboards, crazy 8s and end-to-end interaction models, from concept to
+                pixel-perfect Figma.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">◷</span>
+            <div>
+              <h3>Usability testing</h3>
+              <p>Moderated sessions, A/B, click and tree testing, UX audits and mood analysis — observations turned
+                into action.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">❖</span>
+            <div>
+              <h3>Design strategy</h3>
+              <p>UX vision aligned with business goals: PRDs, sprint planning, roadmap ownership and executive
+                presentations.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">◉</span>
+            <div>
+              <h3>Team leadership</h3>
+              <p>Teams of 10+ designers. Mentoring, workshop facilitation, Scrum Master, and close work with
+                engineering and product.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">▲</span>
+            <div>
+              <h3>Information architecture</h3>
+              <p>Complex enterprise navigation, content hierarchy, user flows, and accessibility-first (WCAG)
+                structure.</p>
+            </div>
+          </div>
+          <div class="skill"><span class="skill-glyph" aria-hidden="true">◼</span>
+            <div>
+              <h3>Visual design</h3>
+              <p>Advanced Figma and Adobe Creative Suite. Colour, typography, brand identity guidelines and responsive
+                layouts.</p>
+            </div>
           </div>
         </div>
-        <span class="project-tag">SaaS</span>
-      </div>
-      <div class="project-row">
-        <div class="project-num">06</div>
-        <div>
-          <div class="project-title">Core Banking + Internet Banking + Mobile Banking</div>
-          <div class="project-meta">VSoft Technologies · Specialist UI/UX · Full banking product suite redesign</div>
-        </div>
-        <span class="project-tag">Fintech</span>
-      </div>
-      <div class="project-row">
-        <div class="project-num">07</div>
-        <div>
-          <div class="project-title">UX Studio Portfolio, Trianz</div>
-          <div class="project-meta">Trianz · Design Architect · Design Strategy, Scrum Master, Data Visualisation</div>
-        </div>
-        <span class="project-tag">Consulting</span>
-      </div>
-    </div>
 
-    <!-- TIMELINE -->
-    <div class="timeline" data-reveal>
-      <div class="timeline-item">
-        <div class="timeline-meta">Recent · Hyderabad, IN</div>
-        <div class="timeline-role">Lead Product Designer</div>
-        <div class="timeline-org">Cleanearthinc</div>
-        <div class="timeline-desc">Led end-to-end UX for a waste management platform, conducting full-cycle user
-          research — quantitative, qualitative, field studies, diary studies, and usability testing. Managed
-          cross-functional collaboration, mentored junior designers, and championed data-driven design with A/B testing
-          and analytics integration.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Hyderabad, IN</div>
-        <div class="timeline-role">Senior Product Designer</div>
-        <div class="timeline-org">Self-employed</div>
-        <div class="timeline-desc">Managed independent design engagements with comprehensive style guides, inclusive
-          design principles, rapid prototyping in Figma, and data-driven decision making. Reduced development time
-          through iterative design and clear stakeholder communication.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Hyderabad, IN</div>
-        <div class="timeline-role">Design Architect</div>
-        <div class="timeline-org">eTeam</div>
-        <div class="timeline-desc">Owned the UX of the Lowe's Marketplace Desktop Application — Item Management, Vendor
-          Management, Asset Grouping, Price Management, Barcode Management, and Fulfilment. Delivered optimised space
-          utilisation through thorough site analysis and creative problem-solving.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Hyderabad, IN</div>
-        <div class="timeline-role">Design Architect</div>
-        <div class="timeline-org">Trianz</div>
-        <div class="timeline-desc">Project management, Scrum Master duties, PRD creation, UX Studio portfolio
-          management, Design Strategy, Data Visualisation, Heuristic Evaluation, and Persona Creation. Developed
-          firm-wide design standards promoting consistency across all projects.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Hyderabad, IN</div>
-        <div class="timeline-role">Design Lead</div>
-        <div class="timeline-org">Lollypop Design Studio</div>
-        <div class="timeline-desc">Full UX delivery management: requirements gathering, design strategy, user
-          interviews, design sprints, wireframing, visual design, interactive prototyping, usability testing, and
-          stakeholder delivery. Successfully handled teams of 10+ designers.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Enterprise Software</div>
-        <div class="timeline-role">Senior User Experience Designer</div>
-        <div class="timeline-org">Software AG</div>
-        <div class="timeline-desc">Designed end-to-end UX for the webMethods portfolio — Active Patterns, Partner Cloud,
-          and Cloudstreams. Ran stakeholder interviews, UX surveys, competition analysis, brainwriting workshops, crazy
-          8s, storyboarding, and interaction design. Created development guidelines.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Hyderabad, IN</div>
-        <div class="timeline-role">Specialist UI/UX Designer → Senior Usability Engineer</div>
-        <div class="timeline-org">VSoft Technologies Pvt. Ltd.</div>
-        <div class="timeline-desc">Designed Core Banking, Internet Banking, and Mobile Banking products. Led user
-          interviews, task flows, wireframes, and usability testing. Early career foundation in web and application
-          design, digital collateral, and brochure design.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">Early Career</div>
-        <div class="timeline-role">Web Designer</div>
-        <div class="timeline-org">Zen IT Solutions</div>
-        <div class="timeline-desc">Web design and CD presentation work — foundation in digital design, visual
-          communication, and client deliverables.</div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- EXPERTISE -->
-  <section id="expertise" class="expertise-bg">
-    <div class="section-header" data-reveal>
-      <span class="section-num">03</span>
-      <div class="section-title-wrap">
-        <span class="section-tag">Core Competencies</span>
-        <h2 class="section-title">What I Bring<br>to Every Project</h2>
-      </div>
-    </div>
-
-    <div class="skills-grid" data-reveal>
-      <div class="skill-card">
-        <span class="skill-icon">◎</span>
-        <div class="skill-name">User Research</div>
-        <div class="skill-desc">Quantitative &amp; qualitative methods, field studies, diary studies, interviews,
-          surveys, card sorting, empathy mapping, and competitive analysis.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">⬡</span>
-        <div class="skill-name">Design Systems</div>
-        <div class="skill-desc">Building reusable component libraries, style guides, and scalable systems that maintain
-          consistency across platforms and product lines.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">◈</span>
-        <div class="skill-name">Interaction Design</div>
-        <div class="skill-desc">Wireframes, prototypes, storyboarding, crazy 8s, and end-to-end interaction models —
-          from concept to pixel-perfect delivery in Figma.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">◷</span>
-        <div class="skill-name">Usability Testing</div>
-        <div class="skill-desc">Moderated sessions, A/B testing, click testing, tree testing, UX audits, and user mood
-          analysis. Turning observations into actionable insight.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">❖</span>
-        <div class="skill-name">Design Strategy</div>
-        <div class="skill-desc">Aligning UX vision with business objectives. PRD creation, sprint planning, roadmap
-          ownership, and executive-level presentation skills.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">◉</span>
-        <div class="skill-name">Team Leadership</div>
-        <div class="skill-desc">Managed teams of 10+ designers. Mentorship, workshop facilitation, Scrum Master, and
-          cross-functional collaboration with dev and product.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">▲</span>
-        <div class="skill-name">Information Architecture</div>
-        <div class="skill-desc">Complex enterprise navigation, content hierarchy, user flow mapping, and
-          accessibility-first (WCAG) structural thinking.</div>
-      </div>
-      <div class="skill-card">
-        <span class="skill-icon">◼</span>
-        <div class="skill-name">Visual Design</div>
-        <div class="skill-desc">Figma (Advanced), Adobe Creative Suite (Upper Intermediate). Color theory, typography,
-          brand identity guidelines, and responsive design.</div>
-      </div>
-    </div>
-  </section>
-  <!--Prototype Links-->
-  <!-- https://wool-badger-08657698.figma.site -->
-  <!-- https://twins-act-08028722.figma.site -->
-  <!-- https://net-tiny-52971313.figma.site -->
-  <!-- https://panic-hero-00311210.figma.site -->
-  <!-- https://nexus-ai.figma.site -->
-
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="section-header" data-reveal>
-      <span class="section-num">04</span>
-      <div class="section-title-wrap">
-        <span class="section-tag">Academic &amp; Professional Training</span>
-        <h2 class="section-title">Education &amp;<br>Certifications</h2>
-      </div>
-    </div>
-
-    <div class="edu-grid" data-reveal>
-      <div class="edu-card">
-        <div class="edu-degree">CUA — User Experience</div>
-        <div class="edu-inst">Human Factors International, Mumbai</div>
-        <div class="edu-note">Certified Usability Analyst training in UX methodology, usability evaluation, and
-          human-centered design processes.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-degree">Mobile UX Designing</div>
-        <div class="edu-inst">Human Factors International, Mumbai</div>
-        <div class="edu-note">Specialised course covering mobile UX process, patterns, and platform-specific design
-          considerations.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-degree">MBA — Information Systems</div>
-        <div class="edu-inst">Sikkim Manipal Institute of Technology — SMU Manipal</div>
-        <div class="edu-note">Business management fundamentals with a specialisation in information systems strategy.
+        <div class="tools">
+          <h3>Tools &amp; methods</h3>
+          <div class="chips">
+            <span class="chip">Figma</span><span class="chip">React.js</span><span class="chip">TypeScript</span>
+            <span class="chip">Prompt engineering</span><span class="chip">AI tools</span>
+            <span class="chip">Adobe Creative Suite</span><span class="chip">Design systems</span>
+            <span class="chip">User research</span><span class="chip">Usability testing</span>
+            <span class="chip">Wireframing</span><span class="chip">Prototyping</span>
+            <span class="chip">A/B testing</span><span class="chip">Analytics</span>
+            <span class="chip">Sprint management</span><span class="chip">Scrum</span>
+          </div>
         </div>
       </div>
-      <div class="edu-card">
-        <div class="edu-degree">DMID — Graphic Design</div>
-        <div class="edu-inst">Image Creative Education, Chennai</div>
-        <div class="edu-note">Formal training in graphic design, visual communication, and creative production.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-degree">Bachelor of Arts — Commerce</div>
-        <div class="edu-inst">Andhra University, Visakhapatnam</div>
-        <div class="edu-note">Undergraduate degree providing analytical and business-thinking foundations.</div>
-      </div>
-    </div>
+    </section>
+    <!--Prototype Links-->
+    <!-- https://wool-badger-08657698.figma.site -->
+    <!-- https://twins-act-08028722.figma.site -->
+    <!-- https://net-tiny-52971313.figma.site -->
+    <!-- https://panic-hero-00311210.figma.site -->
+    <!-- https://nexus-ai.figma.site -->
 
-    <div style="margin-top:3rem" data-reveal>
-      <span class="section-tag" style="display:block;margin-bottom:1.25rem;">Certifications</span>
-      <div class="certs">
-        <div class="cert-pill">Enterprise Design Thinking Practitioner — IBM</div>
-        <div class="cert-pill">Certified Usability Analyst (Trained) — Human Factors International</div>
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Education</h2>
+          <p class="section-intro">Academic grounding in design, business and information systems, plus professional
+            UX training.</p>
+        </div>
+
+        <ul class="edu">
+          <li>
+            <div class="edu-degree">CUA, User Experience</div>
+            <div class="edu-inst">Human Factors International, Mumbai</div>
+            <div class="edu-note">Certified Usability Analyst training in UX methodology, usability evaluation and
+              human-centred design.</div>
+          </li>
+          <li>
+            <div class="edu-degree">Mobile UX Design</div>
+            <div class="edu-inst">Human Factors International, Mumbai</div>
+            <div class="edu-note">Mobile UX process, patterns and platform-specific design considerations.</div>
+          </li>
+          <li>
+            <div class="edu-degree">MBA, Information Systems</div>
+            <div class="edu-inst">Sikkim Manipal Institute of Technology, SMU Manipal</div>
+            <div class="edu-note">Business management with a specialisation in information systems strategy.</div>
+          </li>
+          <li>
+            <div class="edu-degree">DMID, Graphic Design</div>
+            <div class="edu-inst">Image Creative Education, Chennai</div>
+            <div class="edu-note">Graphic design, visual communication and creative production.</div>
+          </li>
+          <li>
+            <div class="edu-degree">Bachelor of Arts, Commerce</div>
+            <div class="edu-inst">Andhra University, Visakhapatnam</div>
+            <div class="edu-note">Analytical and business-thinking foundations.</div>
+          </li>
+        </ul>
+
+        <div class="certs">
+          <div class="cert">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"
+              aria-hidden="true">
+              <circle cx="11" cy="9" r="6" />
+              <path d="M7.5 14 6 21l5-2.5 5 2.5-1.5-7" />
+            </svg>
+            <div><strong>Enterprise Design Thinking Practitioner</strong><span>IBM</span></div>
+          </div>
+          <div class="cert">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"
+              aria-hidden="true">
+              <circle cx="11" cy="9" r="6" />
+              <path d="M7.5 14 6 21l5-2.5 5 2.5-1.5-7" />
+            </svg>
+            <div><strong>Certified Usability Analyst (trained)</strong><span>Human Factors International</span></div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <hr class="rule">
-
-  <!-- FOOTER / CONTACT -->
+  <!-- CONTACT -->
   <footer id="contact">
-    <div class="footer-top">
-      <div>
-        <div class="footer-name">Let's create<br><em style="font-style:italic;color:var(--gold)">together.</em></div>
-        <p class="footer-tagline">Open to lead design roles, product partnerships, and freelance UX engagements. Based
-          in Hyderabad — available for remote or on-site work globally.</p>
+    <div class="wrap">
+      <h2 class="cta-title">Let's build the next system together.</h2>
+      <p class="cta-sub">Open to lead design roles, product partnerships and freelance UX engagements. Based in
+        Hyderabad, available for remote or on-site work worldwide.</p>
+      <a href="mailto:mohan.patcha@gmail.com" class="btn btn-primary">Email me</a>
+
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:mohan.patcha@gmail.com"><small>Email</small>mohan.patcha@gmail.com</a>
+        <a class="contact-card" href="tel:+919885417755"><small>Phone</small>+91 98854 17755</a>
+        <a class="contact-card" href="https://linkedin.com/in/mohanpatcha" target="_blank"
+          rel="noopener"><small>LinkedIn</small>linkedin.com/in/mohanpatcha</a>
       </div>
-      <div>
-        <div class="footer-col-title">Get in Touch</div>
-        <a href="mailto:mohan.patcha@gmail.com" class="footer-link">mohan.patcha@gmail.com</a>
-        <a href="tel:+919885417755" class="footer-link">+91 98854 17755</a>
+
+      <div class="footer-bottom">
+        <span>© 2026 Mohan Patcha, Hyderabad</span>
+        <a href="https://www.behance.net/mohanpatcha" target="_blank" rel="noopener">Portfolio on Behance</a>
       </div>
-      <div>
-        <div class="footer-col-title">Find Me Online</div>
-        <a href="http://www.mohanpatcha.com" class="footer-link" target="_blank">mohanpatcha.com</a>
-        <a href="https://linkedin.com/in/mohanpatcha" class="footer-link" target="_blank">LinkedIn</a>
-        <a href="https://www.behance.net/mohanpatcha" class="footer-link" target="_blank">Behance</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Mohan Patcha · Hyderabad, IN</span>
-      <span class="footer-initials">M.P.</span>
     </div>
   </footer>
 
   <script>
-    // Reveal on scroll
-    const revealEls = document.querySelectorAll('[data-reveal]');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => io.observe(el));
+    // Live size readout on the hero selection frame, like a design tool
+    (function () {
+      var frame = document.getElementById('nameFrame');
+      var label = document.getElementById('frameSize');
+      if (!frame || !label || !('ResizeObserver' in window)) return;
+      new ResizeObserver(function () {
+        var r = frame.getBoundingClientRect();
+        label.textContent = Math.round(r.width) + ' × ' + Math.round(r.height);
+      }).observe(frame);
+    })();
   </script>
 </body>
 
